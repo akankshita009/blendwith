@@ -1,0 +1,134 @@
+
+<!-- Fav and touch icons -->
+<!--<link rel="shortcut icon" href="img/icons/favicon.ico">-->
+<!--<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/icons/apple-touch-icon-114-precomposed.png">-->
+<!--<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/icons/apple-touch-icon-72-precomposed.png">-->
+<!--<link rel="apple-touch-icon-precomposed" href="img/icons/apple-touch-icon-57-precomposed.png">-->
+
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<!--<script src="/assets/plugins/jquery.infinitescroll.js"></script>-->
+
+<!-- Main navigation bar -->
+<!-- There are 3 navigation styles available.-->
+<!--    default - fixed on top without any special effect (no extra markup) -->
+<!--    affix - Bootstrap affix plugin to track page scrolling, you can hide, move or change alpha when scrolled down (navigation.js) -->
+<!--    arrowed - add class .active-arrow to ul.nav to add arrow for active element -->
+
+<!-- /Main navigation bar -->
+<!-- Main content -->
+
+<div class="feed-container" role="main">
+  <div class="scrollable">
+    <%= render 'feed_partial' %>
+  </div>
+</div>
+
+<% if session[:tour] %>
+  <ol class='tourbus-legs' id='tour-blend'>
+    <li data-orientation='centered' data-width="500">
+      <a class="close pull-right tourbus-stop" href="#">&times;</a>
+      <h2>Welcome to Blendwith!</h2>
+      <p>
+        Now that you have created your account take a few moments to see all of the features on your Blendwith account. <br />
+
+        First start by connecting one of the social networks below. <br />
+
+        Login with <%= link_to "Facebook", user_omniauth_authorize_url(:facebook) %> and Login with <%= link_to "Twitter", user_omniauth_authorize_url(:twitter) %>.
+      </p>
+       <a href='javascript:void(0);' class='tourbus-next' style="float: right;">Next...</a>
+      <a class="button remove-bottom tourbus-stop" href="javascript:void(0);">
+        Not interested...
+      </a>
+    </li>
+
+    <li data-el='.awe-group' data-orientation='bottom' data-align="center" data-width='300'>
+      <a class="close pull-right tourbus-stop" href="#">&times;</a>
+      <p>See what your friends are up to by viewing the Blendwith Friends Feed.</p>
+      <a href='<%= image_playlists_path %>'>Next...</a>
+    </li>
+  </ol>
+<% end %>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        var colW = 0;
+
+//        if ($(window).width() >= 1100) {
+//            $('.feed-container .feed').width($(window).width() / 5 - 50);
+//            colW = $(window).width() / 5 - 5;
+//        }
+//        else if ($(window).width() < 1100 && $(window).width() >= 900) {
+//            $('.feed-container .feed').width($(window).width() / 4 - 50);
+//            colW = $(window).width() / 4 - 5;
+//        }
+//        else if ($(window).width() < 900 && $(window).width() >= 600) {
+//            $('.feed-container .feed').width($(window).width() / 3 - 50);
+//            colW = $(window).width() / 3 - 5;
+//        } else if ($(window).width() < 600 && $(window).width() >= 400) {
+//            $('.feed-container .feed').width($(window).width() / 2 - 50);
+//            colW = $(window).width() / 2 - 5;
+//        }
+
+        if ($(window).width() >= 900) {
+            $('.feed-container .feed').width($(window).width() / 3 - 50);
+            colW = $(window).width() / 3 - 5;
+        }
+        else if ($(window).width() < 900 && $(window).width() >= 500) {
+            $('.feed-container .feed').width($(window).width() / 2 - 50);
+            colW = $(window).width() / 2 - 5;
+        } else if ($(window).width() < 500 && $(window).width() >= 0) {
+            $('.feed-container .feed').width($(window).width() / 1 - 50);
+            colW = $(window).width() / 1 - 5;
+        }
+
+        var $container = $('.feed-container .scrollable');
+        $container.css({'height': $(window).height() - ($('.navbar').outerHeight() + 30), 'width': $('.feed-container .scrollable').width()});
+        $container.imagesLoaded(function () {
+            $container.isotope({
+                layoutMode: 'masonry',
+                masonry: {
+                    columnWidth: colW
+                },
+                sortBy: 'original-order'
+            });
+        });
+
+        var page = 1, request_finished = true;
+
+        $(window).scroll(function () {
+            if (request_finished && $(this).scrollTop() > $('body').height() - $(window).height() - 50) {
+                request_finished = false;
+                $.ajax({
+                    type: "GET",
+                    url: "/friend_maps/friends_feed",
+                    data: ({page: page}),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.html.trim() == "") {
+                            return;
+                        }
+                        page += 1;
+                        var el = $(data.html);
+                        el.imagesLoaded(function () {
+                            $container.append(el);
+                            $('.feed-container .feed').width(colW - 50);
+                            $container.isotope('appended', el, function(){
+                                request_finished = true;
+                            });
+                        })
+                    }
+                });
+            }
+        });
+    });
+</script>
+<!-- Scripts -->
+<!--<script src="js/navigation.js"></script>-->
+<!-- Bootstrap scripts -->
+<!--<script src="js/bootstrap/bootstrap.js"></script>-->
+<div class="new-feeds" style="display:none;"></div>

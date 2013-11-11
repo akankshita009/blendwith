@@ -1,0 +1,9 @@
+$.jGrowl("Playlist Cover Photo Updated.", {
+  header: '',
+  sticky: true,
+  theme: 'info'
+});
+
+var media_id = '#<%= "#{@media.id}-#{@media.class}" %>';
+$('.highlight').removeClass('highlight');
+$(media_id).addClass('highlight');

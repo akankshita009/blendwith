@@ -1,0 +1,3 @@
+//$("#search_result").html(data.result)
+$('#search_result').html('<%= escape_javascript render(:partial => "friend_maps/search_result") %>');
+//$('.job-pagination').html('<%#= escape_javascript(paginate(@jobs, :remote => true).to_s) %>');

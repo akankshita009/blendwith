@@ -1,0 +1,82 @@
+<header class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".user">
+                <span class="awe-user"></span>
+            </button>
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".navigation">
+                <span class="awe-chevron-down"></span>
+            </button>
+            <% if user_signed_in? %>
+                <a class="logo" href="<%= user_path(current_user) %>"><b>Blend</b>With</a>
+                <nav class="nav-collapse navigation">
+                    <ul class="nav active-arrows" role="navigation">
+                      <li id="photo-nav" class="<%= if %w(image_playlists photo_networks photo_urls albums uploaded_photos).include?(controller_name) then 'active' end %>"><a href="<%= image_playlists_path %>" title="My Photos"><span class="awe-camera"></span></a></li>
+
+                      <li class="<%= if %w(video_playlists video_networks video_urls uploaded_videos).include?(controller_name) then 'active' end %>"><a href="<%= video_playlists_path %>" title="My Videos"><span class="awe-facetime-video"></span></a></li>
+
+                      <li class="<%= if %w(music_playlists music_networks music_urls uploaded_audios).include?(controller_name) then 'active' end %>"><a href="<%= music_playlists_path %>" title="My Music"><span class="awe-headphones"></span></a></li>
+
+                        <!--<li class="divider-vertical"></li>-->
+                        <!--<li class="divider-vertical"></li>-->
+                        <!--<li class="<%#= if %w(friend_maps).include?(controller_name) then 'active' end %>"><a href="<%#= friend_maps_path %>" title="My Music"><span class="awe-user-md"></span>All Friends</a></li>-->
+                      <!--li id="friend-nav" class="<%#= if controller_name == 'friend_maps' && action_name=='friends_feed' then 'active' end %>"><a href="<%#= friends_feed_friend_maps_path %>" title="Friends Feed"><span class="awe-user-md"></span>Friends Feed</a></li>
+                      <li class="<%#= if controller_name == 'friend_maps' && action_name=='index' then 'active' end %>"><a href="<%#= friend_maps_path %>" title="My Music"><span class="awe-group"></span>Friends</a></li-->
+                      <!--<li><a href="#" title="Buttons in navbar!" class="btn-wuxia-navbar"><div class="btn btn-wuxia"><span class="awe-group"></span> Friends</div></a></li>-->
+                    </ul>
+                </nav>
+                <nav class="nav-collapse user">
+
+                  <ul class="nav active-arrows" role="user">
+                    <li>
+                        <div class="user-info pull-left">
+                          <!--<img src="http://placekitten.com/35/35" alt="User avatar">-->
+                            <div class="btn-group">
+                              <%= link_to(image_tag(image_by_user(current_user, 40, :thumb)), "#", :data => {:toggle => "dropdown"}, :class => "btn dropdown-toggle" ) %>
+                                <!--a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <div><strong><%#= current_user.username %></strong></div>
+                                    <span class="caret"></span>
+                                </a-->
+                                <ul class="dropdown-menu">
+                                    <li id="edit_user"><a href="<%= edit_user_path current_user %>"><span class="awe-cogs"></span> Account settings</a></li>
+                                    <li class="divider"></li>
+                                    <li>
+                                      <a href="<%= conversations_path %>"><span class="awe-envelope"></span> Messages</a>
+                                      <% unread_msg_count = current_user.un_read_message_count %>
+                                      <% if unread_msg_count > 0 %>
+                                          <span class="badge badge-important"><%= unread_msg_count %></span>
+                                      <% end %>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li><%= link_to content_tag(:span, "", class: "awe-signout") + "Logout", destroy_user_session_path, :method => :delete %></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="<%= if controller_name == 'friend_maps' && action_name=='friends_feed' then 'active' end %>">
+                        <a href="<%= friends_feed_friend_maps_path %>" title="Friends Feed"><span class="awe-group"></span></a>
+                    </li>
+
+                    <li class="<%= if controller_name == 'friend_maps' && action_name=='index' then 'active' end %>">
+                        <a href="<%= friend_maps_path %>" title="Search Friends"><span class="awe-search"></span></a>
+                    </li>
+
+                  </ul>
+                </nav>
+            <% else %>
+              <a class="logo" href="<%= root_path %>"><b>Blend</b> With</a>
+              <nav class="nav-collapse navigation">
+                <ul class="nav active-arrows" role="navigation"></ul>
+              </nav>
+              <nav class="nav-collapse pull-right">
+                <ul class="nav active-arrows" role="navigation">
+                  <li><a style="color: #f0f0f0" href="/tour">Tour</a></li>
+                  <li><a style="color: #f0f0f0" href="<%= new_session_path(:user) %>">Sign In</a></li>
+                  <li><a style="color: #f0f0f0" href="<%= new_registration_path(:user) %>">Sign Up</a></li>
+                </ul>
+              </nav>
+            <% end %>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,33 @@
+<div class="form individual">
+  <a href="<%= image_path("sample_content/sample-image-900x500.png") %>" class="form-image">
+    <img class="element" src="<%= image_path("sample_content/sample-image-250x150.png") %>" alt=""/>
+    <span class="awe-zoom-in"></span>
+  </a>
+  <%= form_tag "", :method => :put do %>
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="input">Caption</label>
+
+        <div class="controls">
+          <input class="input-xlarge" type="text" name="caption" id="caption" placeholder="Caption here">
+          <input type="hidden" value="" id="object_id" name="object_id"/>
+          <!-- <p class="help-block">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>-->
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="input">Tags</label>
+
+        <div class="controls">
+          <input id="tags" class="input-xlarge" type="text" name="tags" placeholder="Caption here">
+
+          <p class="help-block">comma separated tags</p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-wuxia btn-normal btn-primary" type="submit">Save changes</button>
+        <a class="btn btn-wuxia btn-normal btn-primary close-form">Cancel</a>
+      </div>
+    </fieldset>
+  <% end %>
+</div>

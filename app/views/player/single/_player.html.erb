@@ -1,0 +1,83 @@
+<%# params['item_id'] %>
+<% if (params['playlist_type'] == 'video') %>
+    <% if @media.network == 'uploaded_video' %>
+        <% video = UploadedVideo.find @media.video_id %>
+        <% if video.encode_success? %>
+            <div id="video_url"><%= video.ori_video_url %></div>
+            <div id="video_desc">
+              <h1>
+                <!--Iphone 5 Review-->
+              </h1>
+              <span>By <%= @user.to_s %> <%= time_ago_in_words @media.created_at %></span>
+
+              <p>
+                <!--This player is the chronicle of the year 2012 which was filled with much love, happiness, and life-->
+                <!--changes. Check out the November album to see all of the photos from the big day.-->
+                <br>
+                <br>
+                <!--Tags: Wedding, Stories, Chicago, Sears Tower, Holy Name-->
+              </p>
+            </div>
+        <% end %>
+    <% elsif @media.network == 'youtube' %>
+        <div id="video_url"><%= @media.video_id %></div>
+        <div id="video_desc">
+        </div>
+    <% end %>
+<% elsif (params['playlist_type'] == 'photo') %>
+
+    <%= render 'player/background_music' %>
+
+
+    <%#= javascript_include_tag 'plugins/player_cheage/video-script' %>
+    <%= render :partial => 'application/player_buttons' %>
+
+    <div id="gallery" playlist-id="<%= params['playlist_id'] %>">
+      <div>
+        <% if @media.respond_to? :photos %>
+            <% @media.photos.allowed.each do |photo| %>
+                <div class="photo">
+                  <div class="desc">
+                    <span>By <%= @user.to_s %> <%= time_ago_in_words photo.created_at %> ago</span>
+                  </div>
+                  <img src="<%= photo.image_url %>">
+                  <h3 class="caption"><%= photo.caption %></h3>
+                </div>
+            <% end %>
+        <% end %>
+        <% if @media.respond_to? :albums %>
+            <% @media.albums.allowed.each do |album| %>
+                <% album.photos.each do |photo| %>
+                    <div class="photo">
+                      <div class="desc">
+                        <span>By <%= @user.to_s %> <%= time_ago_in_words photo.created_at %> ago</span>
+                      </div>
+                      <img src="<%= photo.image_url %>">
+                      <h3 class="caption"><%= photo.caption %></h3>
+                    </div>
+                <% end %>
+            <% end %>
+        <% end %>
+        <% if @media.class == Photo %>
+            <div class="photo">
+              <div class="desc">
+                <span>By <%= @user.to_s %> <%= time_ago_in_words @media.created_at %> ago</span>
+              </div>
+              <img src="<%= @media.image_url %>">
+              <h3 class="caption"><%= @media.caption %></h3>
+            </div>
+        <% end %>
+      </div>
+
+      
+
+    </div>
+
+<% elsif (params['playlist_type'] == 'audio') %>
+
+    <div id="audio_desc">
+      <h1><%= @media.title %></h1>
+      <span>By <%= @user.to_s %> <%= time_ago_in_words @media.created_at %> ago </span>
+    </div>
+
+<% end %>

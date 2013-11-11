@@ -1,0 +1,18 @@
+<% if album %>
+    <%= content_tag :li, data: {type: 'playlist_album', id: album.id, name: album.name, tags: album.tags.map(&:name).join(","), url: album_path(album), item_id: item_id}, class: 'span3 with-title' do %>
+        <input id="img_<%= album.id %>" type="checkbox" value="<%= album.id %>">
+        <a href="#" title="<%= album.name %>" class="thumbnail" <%= raw('style="opacity: 0.4"') if  album.content_control %>>
+          <i style="background-image: url(<%= album.image_url %>);" class="uiMediaThumbImg"></i>
+        </a>
+        <div>
+
+          <%= link_to "", feed_toggler_path(album.id, :item_type => 'Album'), :class => "feed-control", :remote => true %>
+          <%= link_to "", playlist_cover_changer_path(params[:id]||@playlist_show.id, item_id, :original_playlist_id => playlist_id), :class => "cover_media #{cover_class(@playlist_show,  album)}", :id => generate_cover_id_from(album), :remote => true %>
+          <% if action_name == 'show' %>
+            <a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+            <span class="awe-cog"></span>
+          <% end %>
+          <%= link_to album.name.truncate(30), album_path(album), :class => 'playlist-title' %>
+        </div>
+    <% end %>
+<% end %>

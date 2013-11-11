@@ -1,0 +1,536 @@
+<!-- Main data container -->
+<%= javascript_include_tag 'jquery.fileupload', 'jquery.fileupload-ui' %>
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        function upload_error(messages, photoDivId, collapseDivId) {
+            var error_div = $('<div class="alert alert-error"></div>');
+            error_div.append('<a href="#" data-dismiss="alert" class="close">×</a>');
+            var ul = $("<url></ul>");
+            for(var i in messages) {
+                ul.append($("<li></li>").append(messages[i]));
+            }
+            error_div.append(ul);
+            $(collapseDivId + " div.alert.alert-error").remove();
+            $(photoDivId).after(error_div);
+        }
+
+        $('#new_cover_photo').fileUploadUI({
+            uploadTable: $('.upload_files'),
+            downloadTable: $('.download_files'),
+            buildUploadRow: function (files, index) {
+                var file = files[index];
+                return $('<tr><td>' + file.name + '<\/td>' +
+                        '<td class="file_upload_progress"><div><\/div><\/td>' +
+                        '<td class="file_upload_cancel">' +
+                        '<div class="ui-state-default ui-corner-all ui-state-hover" title="Cancel">' +
+                        '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                        '<\/div><\/td><\/tr>');},
+            buildDownloadRow: function (file) {
+                if(file.error) {
+                    upload_error(file.messages, "#cover-photo-div", "#collapseTwo");
+                } else {
+                    $("#collapseTwo div.alert.alert-error").remove();
+                    var node = '<img src="' + file.image_url + '">';
+                    var node = '<i class="cover-image-i" style="background-image: url('+ file.image_url +')"></i>';
+                    $("#cover-photo-div").html(node);
+                }
+            }
+        });
+
+        $('#new_profile_photo').fileUploadUI({
+            uploadTable: $('.upload_files'),
+            downloadTable: $('.download_files'),
+            buildUploadRow: function (files, index) {
+                var file = files[index];
+                return $('<tr><td>' + file.name + '<\/td>' +
+                        '<td class="file_upload_progress"><div><\/div><\/td>' +
+                        '<td class="file_upload_cancel">' +
+                        '<div class="ui-state-default ui-corner-all ui-state-hover" title="Cancel">' +
+                        '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                        '<\/div><\/td><\/tr>');},
+            buildDownloadRow: function (file) {
+                if(file.error) {
+                    upload_error(file.messages, "#profile-photo-div", "#collapseEight");
+                } else {
+                    $("#collapseEight div.alert.alert-error").remove();
+                    var node = '<img src="' + file.image_url + '">';
+                    var node = '<i class="cover-image-i" style="background-image: url('+ file.image_url +')"></i>';
+                    $("#profile-photo-div").html(node);
+                }
+            }
+        });
+
+        $("#privacy-select").change(function(){
+            var privacy = $("#privacy-select option:selected").val();
+            $.post('/users/privacy', {privacy: privacy}, function(){
+
+            });
+        });
+
+        $("#friend-request-setting").change(function(){
+            var friend_request = $("#friend-request-setting option:selected").val();
+            $.post('/users/friend_request', {no_need_confirm: friend_request}, function(){
+
+            });
+        })
+    });
+</script>
+
+
+<div class="row-fluid">
+<div class="span12">
+<div class="content">
+<div class="page-container ">
+<div class="page-header">
+  <h1 class="center">My Settings
+    <small>Change your account, player, and social settings below.</small>
+  </h1>
+</div>
+<div id="accordion2" class="accordion huge">
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" href="#collapseOne" data-parent="#accordion2" data-toggle="collapse">
+      Profile</a>
+  </div>
+  <div id="collapseOne" class="accordion-body collapse" style="height: <%= @collapse_one_height %>">
+    <div class="accordion-inner">
+
+
+    </div>
+
+
+    <article class="span8">
+
+      <%= form_for @user do |f| %>
+
+          <% if @collapse_one_height == 'auto' %>
+            <%= render 'shared/error_messages', object: @user %>
+          <% end %>
+
+          <fieldset>
+            <div class="control-group">
+              <label for="input" class="control-label">Username</label>
+
+              <div class="controls">
+                <%= f.text_field :username, :class => 'input-xlarge' %>
+
+                <p class="help-block">http://blendwith.com/justinkempiak</p>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="input" class="control-label">Email Address</label>
+
+              <div class="controls">
+                <%= f.text_field :email, :class => 'input-xlarge' %>
+
+                <p class="help-block">Your email is not shown publicly.</p>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="input" class="control-label">Location</label>
+
+              <div class="controls">
+                <%= f.text_field :location, :class => 'input-xlarge' %>
+
+                <p class="help-block">Where in the world you are.</p>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="input" class="control-label">Player Title</label>
+
+              <div class="controls">
+                <%= f.text_field :player_title, :class => 'input-xlarge' %>
+
+                <p class="help-block">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="textarea" class="control-label">Player Description</label>
+
+              <div class="controls">
+                <%= f.text_area :player_description, :class => 'input-xlarge', :rows => 3 %>
+
+                <p class="help-block">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+              </div>
+
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-wuxia btn-large btn-primary">Save changes</button>
+            </div>
+          </fieldset>
+      <% end %>
+    </article>
+
+
+  </div>
+</div>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" href="#collapseTwo" data-parent="#accordion2" data-toggle="collapse">Player Cover
+      Photo</a>
+  </div>
+  <div id="collapseTwo" class="accordion-body collapse">
+    <div class="accordion-inner">
+
+      <div data-provides="fileupload" class="fileupload fileupload-new">
+        <h4>Change Player Cover Photo</h4>
+
+        <div id="cover-photo-div" class="fileupload-new fileupload-large thumbnail" style="position: relative">
+          <% if @user.cover_photo %>
+            <i class="cover-image-i" style="background-image: url(<%= @user.cover_photo.cover_photo.url.to_s %>)"></i>
+          <% else %>
+            <i class="cover-image-i" style="background-image: url(/assets/sample_content/sample-image-250x150.png)"></i>
+          <% end %>
+        </div>
+        <div class="fileupload-preview fileupload-exists fileupload-large flexible thumbnail"></div>
+
+        <%= form_for CoverPhoto.new, :url => "/users/#{@user.id}/cover_photos/upload_photos", :html => {:multipart => true, :class => 'file_upload'} do |f| %>
+        <%#= form_tag "/users/#{@user.id}/cover_photos/upload_photos", :class => 'file_upload' do |f| %>
+          <span class="btn">
+            <i class="icon-plus"></i>
+            <span class="upload-btn">Select image</span>
+            <input multiple="" name="cover_photo[cover_photo]" type="file"/>
+          </span>
+        <% end %>
+
+        <table class="upload_files"></table>
+        <table class="download_files"></table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" href="#collapseEight" data-parent="#accordion2" data-toggle="collapse">Profile Picture</a>
+  </div>
+  <div id="collapseEight" class="accordion-body collapse">
+    <div class="accordion-inner">
+
+      <div data-provides="fileupload" class="fileupload fileupload-new">
+        <h4>Change Profile Picture</h4>
+
+        <div id="profile-photo-div" class="fileupload-new fileupload-large thumbnail" style="position: relative;height: 82px;width: 82px;">
+          <% if @user.profile_photo %>
+              <i class="cover-image-i" style="background-image: url(<%= @user.profile_photo.profile_photo.url.to_s %>)"></i>
+          <% else %>
+              <i class="cover-image-i" style="background-image: url(/assets/sample_content/sample-image-250x150.png)"></i>
+          <% end %>
+        </div>
+        <div class="fileupload-preview fileupload-exists fileupload-large flexible thumbnail"></div>
+
+        <%= form_for ProfilePhoto.new, :url => "/users/#{@user.id}/profile_photos/upload_photos", :html => {:multipart => true, :class => 'file_upload'} do |f| %>
+            <span class="btn">
+            <i class="icon-plus"></i>
+            <span class="upload-btn">Select image</span>
+            <input multiple="" name="profile_photo[profile_photo]" type="file"/>
+          </span>
+        <% end %>
+
+        <table class="profile_upload_files"></table>
+        <table class="profile_download_files"></table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" href="#collapseThree" data-parent="#accordion2" data-toggle="collapse">
+      Privacy</a>
+  </div>
+  <div id="collapseThree" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <!--Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf-->
+      <!--moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.-->
+      <!--Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda-->
+      <!--shoreditch et. <br>-->
+
+      <div class="control-group">
+        <label for="privacy-select" class="control-label">Player Privacy</label>
+
+        <div class="controls">
+          <select id="privacy-select">
+
+            <option <%= 'selected="selected"' if @user.privacy == 'Public' %>>Public</option>
+            <option <%= 'selected="selected"' if @user.privacy == 'Friends Only' %>>Friends Only</option>
+            <option <%= 'selected="selected"' if @user.privacy == 'Private' %>>Private</option>
+
+          </select>
+        </div>
+      </div>
+
+
+      <div class="control-group">
+        <label for="privacy-select" class="control-label">Friend Request Setting</label>
+
+        <div class="controls">
+          <select id="friend-request-setting">
+
+            <option value="true" <%= 'selected="selected"' if @user.no_need_confirm %>>Accept All Friends </option>
+            <option value="false" <%= 'selected="selected"' unless @user.no_need_confirm %>>Require Permission</option>
+
+          </select>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="privacy-select" class="control-label">Player Sharing Setting</label>
+
+        <div class="controls">
+          <%= select_tag :embed_player_privacy, options_for_select(User::EMBED_PLAYER_PRIVACY, @user.embed_code_privacy) %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" href="#collapseFour" data-parent="#accordion2" data-toggle="collapse"> Social
+      Networks</a>
+  </div>
+  <div id="collapseFour" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <div class="span8 social-connect">
+
+        <div class="row-fluid">
+          <div class="span3"><h5>Facebook</h5></div>
+          <div class="span9">
+            <a class="icon facebook" href="#"></a>
+            <p>Connect with facebook to enable sharing your notes & notebooks with your Facebook friends.</p>
+
+            <% if current_user.facebook.try(:access_token) && !current_user.facebook.expired? %>
+                <span style="color: limegreen">Connected</span>
+                <span style="color: #d43f3f;display: none;">Disconnected</span>
+                <a class="btn btn-small disconnect" href="facebook">Disconnect</a>
+                <a class="btn btn-small" style="display: none" href="/users/connect_social_network?social_network=facebook">Connect</a>
+            <% else %>
+                <span style="color: #d43f3f">Disconnected</span>
+                <a class="btn btn-small" href="/users/connect_social_network?social_network=facebook">Connect</a>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <div class="span3"><h5>Flickr</h5></div>
+          <div class="span9">
+            <a class="icon flickr" href="#"></a>
+
+            <p>Connect with Flickr to enable easy sharing with your friends.</p>
+            <% if current_user.flickr %>
+                <span style="color: limegreen">Connected</span>
+                <span style="color: #d43f3f;display: none;">Disconnected</span>
+                <a class="btn btn-small disconnect" href="flickr">Disconnect</a>
+                <a class="btn btn-small" style="display: none" href="/users/connect_social_network?social_network=flickr">Connect</a>
+            <% else %>
+                <span style="color: #d43f3f">Disconnected</span>
+                <a class="btn btn-small" href="/users/connect_social_network?social_network=flickr">Connect</a>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <div class="span3"><h5>Twitter</h5></div>
+          <div class="span9">
+            <a class="icon twitter" href="#"></a>
+
+            <p>Connect with Twitter to enable easy sharing with your friends.</p>
+            <% if current_user.twitter && !current_user.twitter.expired? %>
+                <span style="color: limegreen">Connected</span>
+                <span style="color: #d43f3f;display: none;">Disconnected</span>
+                <a class="btn btn-small disconnect" href="twitter">Disconnect</a>
+                <a class="btn btn-small" style="display: none" href="/users/connect_social_network?social_network=twitter">Connect</a>
+            <% else %>
+                <span style="color: #d43f3f">Disconnected</span>
+                <a class="btn btn-small" href="/users/connect_social_network?social_network=twitter">Connect</a>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <div class="span3"><h5>Instagram</h5></div>
+          <div class="span9">
+            <a class="icon twitter" href="#"></a>
+
+            <p>Connect with Instagram to enable easy sharing with your friends.</p>
+            <% if current_user.instagram.try(:access_token) %>
+                <span style="color: limegreen">Connected</span>
+                <span style="color: #d43f3f;display: none;">Disconnected</span>
+                <a class="btn btn-small disconnect" href="instagram">Disconnect</a>
+                <a class="btn btn-small" style="display: none" href="/users/connect_social_network?social_network=instagram">Connect</a>
+            <% else %>
+                <span style="color: #d43f3f">Disconnected</span>
+                <a class="btn btn-small" href="/users/connect_social_network?social_network=instagram">Connect</a>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <div class="span3"><h5>Google Plus</h5></div>
+          <div class="span9">
+            <a class="icon twitter" href="#"></a>
+
+            <p>Connect with Google Plus to enable easy sharing with your friends.</p>
+            <% if current_user.picasa && !current_user.picasa.expired? && !current_user.picasa.disconnected %>
+                <span style="color: limegreen">Connected</span>
+                <span style="color: #d43f3f;display: none;">Disconnected</span>
+                <a class="btn btn-small disconnect" href="picasa">Disconnect</a>
+                <a class="btn btn-small" style="display: none" href="/users/connect_social_network?social_network=picasa">Connect</a>
+            <% else %>
+                <span style="color: #d43f3f">Disconnected</span>
+                <a class="btn btn-small" href="/users/connect_social_network?social_network=picasa">Connect</a>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <div class="span3"><h5>Youtube</h5></div>
+          <div class="span9">
+            <a class="icon twitter" href="#"></a>
+
+            <p>Connect with Youtube to enable easy sharing with your friends.</p>
+            <% if current_user.youtube && !current_user.youtube.expired? && !current_user.youtube.disconnected %>
+                <span style="color: limegreen">Connected</span>
+                <span style="color: #d43f3f;display: none;">Disconnected</span>
+                <a class="btn btn-small disconnect" href="youtube">Disconnect</a>
+                <a class="btn btn-small" style="display: none" href="/users/connect_social_network?social_network=youtube">Connect</a>
+            <% else %>
+                <span style="color: #d43f3f">Disconnected</span>
+                <a class="btn btn-small" href="/users/connect_social_network?social_network=youtube">Connect</a>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <div class="span3"><h5>Soundcloud</h5></div>
+          <div class="span9">
+            <a class="icon soundcloud" href="#"></a>
+
+            <p>Connect with Soundcloud to enable easy sharing with your friends.</p>
+            <% if current_user.soundcloud %>
+                <span style="color: limegreen">Connected</span>
+                <span style="color: #d43f3f;display: none;">Disconnected</span>
+                <a class="btn btn-small disconnect" href="soundcloud">Disconnect</a>
+                <a class="btn btn-small" style="display: none" href="/users/connect_social_network?social_network=soundcloud">Connect</a>
+            <% else %>
+                <span style="color: #d43f3f">Disconnected</span>
+                <a class="btn btn-small" href="/users/connect_social_network?social_network=soundcloud">Connect</a>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" href="#collapseFive" data-parent="#accordion2" data-toggle="collapse">
+      Comments</a>
+  </div>
+  <div id="collapseFive" class="accordion-body collapse">
+    <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+      nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
+      coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+      nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+      farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
+      sustainable VHS.
+    </div>
+  </div>
+</div>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" href="#collapseSix" data-parent="#accordion2" data-toggle="collapse"> Account
+      Information</a>
+  </div>
+  <div id="collapseSix" class="accordion-body collapse">
+    <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+      nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
+      coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+      nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+      farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
+      sustainable VHS.
+    </div>
+  </div>
+</div>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" href="#collapseSeven" data-parent="#accordion2" data-toggle="collapse"> Change
+      Password</a>
+  </div>
+  <div id="collapseSeven" class="accordion-body collapse" style="height: <%= @collapse_seven_height %>">
+    <div class="accordion-inner">
+
+      <% if @collapse_seven_height == 'auto' %>
+          <%= render 'shared/error_messages', object: @user %>
+      <% end %>
+
+      <%= form_for(@user, :url => { :action => "update_password" }, :html => {:style => 'padding: 10px;'} ) do |f| %>
+          <div class="field">
+            <%= f.label :password, "Password" %><br />
+            <%= f.password_field :password, :autocomplete => "off"  %>
+          </div>
+          <div class="field">
+            <%= f.label :password_confirmation %><br />
+            <%= f.password_field :password_confirmation %>
+          </div>
+          <div class="action_container">
+            <%= f.submit 'Submit', :class => 'btn' %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" href="#collapseNine" data-parent="#accordion2" data-toggle="collapse">Delete Account</a>
+  </div>
+  <div id="collapseNine" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <p><b>I want to delete my account and understand that this can not be undone.</b><p>
+      <%= link_to "Delete", user_path(current_user), :method => :delete, :confirm => "Are you sure you want to delete your account?" %>
+    </div>
+  </div>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+
+</div>
+<ol class='tourbus-legs' id='tour-blend'>
+  <li data-el='.user-info' data-orientation='bottom' data-align="right" data-width='300'>
+    <p>Need to change your settings? <br />
+      Click on these sections to change things like your password or home city.</p>
+    <a class="button remove-bottom tourbus-stop" href="javascript:void(0);">All Done! Start creating a playlist.</a>
+  </li>
+</ol>
+<% if session[:tour] %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var tour = $('#tour-blend').tourbus({});
+      tour.trigger('depart.tourbus');
+
+      $(".tourbus-stop").click(function() {
+        $.ajax({
+          type: "GET",
+          url: "/tour/update",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          complete: function() {
+            window.location = '/<%= current_user.services.first.try(:provider) %>';
+          }
+        });
+      });
+    });
+  </script>
+<% end %>
+

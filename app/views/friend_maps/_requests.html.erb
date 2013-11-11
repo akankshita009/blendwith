@@ -1,0 +1,18 @@
+<% @request_friends.map {|friend| friend.user }.each do |user| %>
+    <% next unless user %>
+    <div class="span3 friend-span">
+      <a href="<%= user_path user %>" target="_blank"><img style="float: left" src="<%= image_by_user user %>"/></a>
+      <div style="padding: 5px 0 0 5px;float: left;">
+        <a href="<%= user_path user %>" style="color: #fa9300;" target="_blank"><%= user_name user %></a>
+        <br>
+        Software engineer
+        <br>
+        <b>Live in</b> Chicago, US
+        <br>
+        <a href="#" data-id="<%= user.id %>" class="agree-request" style="color: #fa9300">Confirm</a>
+        <span style="color: green;display: none;">Confirmed</span>
+      </div>
+    </div>
+<% end %>
+
+<%= paginate @request_friends, :remote => true, :theme => 'friends' %>

@@ -1,0 +1,54 @@
+<% if params[:playlist_id].in? %w(Recent_Photos All_Photos) %>
+    <% @playlists.each do |playlist| %>
+        <% playlist.items.allowed.each do |item| %>
+            <a class="thumb <%= item.itemizable.class == Photo ? 'photo' : 'album' %>" item-id="<%= item.id %>">
+              <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+              <i style="background-image: url(<%= item.itemizable.image_url %>);" class="uiMediaThumbImg-player"></i>
+
+              <h3>
+            <%= item.itemizable.instance_of?(Album) ? item.itemizable.name : '' %>
+              </h3>
+            </a>
+        <% end %>
+    <% end %>
+<% end %>
+
+
+<% if params[:playlist_id].in? %w(Recent_Photos All_Photos URL_Photos) %>
+    <% @url_photos.allowed.each do |photo| %>
+        <a class="thumb photo" item-id="<%= photo.image_url %>" playlist-id='URL_Photos'>
+          <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+          <i style="background-image: url(<%= photo.image_url %>);" class="uiMediaThumbImg-player"></i>
+
+          <h3>
+            <%#= @graph.get_object(photo['id'])['name'] %>
+          </h3>
+        </a>
+    <% end %>
+<% end %>
+
+<% if params[:playlist_id].in? %w(Recent_Photos All_Photos Uploaded_Photos) %>
+    <% @uploaded_photos.each do |photo| %>
+        <a class="thumb photo" item-id="<%= photo.image.url %>" playlist-id='Uploaded_Photos'>
+          <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+          <i style="background-image: url(<%= photo.image.url %>);" class="uiMediaThumbImg-player"></i>
+
+          <h3>
+            <%#= @graph.get_object(photo['id'])['name'] %>
+          </h3>
+        </a>
+    <% end %>
+<% end %>
+
+<% unless params[:playlist_id].in? %w(Recent_Photos All_Photos URL_Photos Uploaded_Photos) %>
+    <% @items.each do |item| %>
+        <a class="thumb <%= item.itemizable.class == Photo ? 'photo' : 'album' %>" item-id="<%= item.id %>">
+          <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+          <i style="background-image: url(<%= item.itemizable.image_url %>);" class="uiMediaThumbImg-player"></i>
+
+          <h3>
+            <%= item.itemizable.instance_of?(Album) ? item.itemizable.name : '' %>
+          </h3>
+        </a>
+    <% end %>
+<% end %>

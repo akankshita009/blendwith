@@ -1,0 +1,18 @@
+<% @conversations.each do |conversation| %>
+    <% unread_count = conversation.receipts_for(current_user).where(is_read: false).count %>
+    <% read_status = (unread_count == 0) ? 'read-message' : 'unread-message' %>
+    <li>
+      <p>
+        <%= link_to conversation.subject, conversation_path(conversation), class: "show-message #{read_status}" %>
+        &nbsp;|&nbsp;
+        <% if @is_trash %>
+            <%= link_to 'Untrash', untrash_conversation_path(conversation), class: read_status, remote: true, method: :post %>
+        <% else %>
+            <%= link_to 'Move to trash', trash_conversation_path(conversation), class: read_status, remote: true, method: :post %>
+        <% end %>
+      </p>
+    </li>
+<% end %>
+<li>
+  <%= paginate @conversations, remote: true %>
+</li>

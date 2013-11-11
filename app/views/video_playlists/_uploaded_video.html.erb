@@ -1,0 +1,16 @@
+<% original_video = video.panda_video.encodings["h264"] %>
+<%= content_tag :li, data: {type: 'video', id: video['id'], network: "uploaded_video", video_url: original_video.url, url: uploaded_video_path(video['id']), title: video['title'], tags: video.tags.map(&:name).join(",")}, class: 'span2 with-title' do %>
+    <input id="video_<%= video['id'] %>" type="hidden" value="<%= video['id'] %>">
+    <% if original_video.status == "success" %>
+        <div class="video-back" style="background-color: #000;">
+          <i style="background-image: url(<%= original_video.screenshots[0] %>); <%= raw('opacity: 0.4') if video.content_control %>" class="uiMediaThumbImg thumbnail video-thumb"></i>
+          <!--<video width="262" height="175" preload="none"-->
+                 <!--poster="<%#= original_video.screenshots.first %>" class="scale-video hide" controls>-->
+            <!--<source src="<%#= original_video.url %>" type="video/mp4">-->
+          <!--</video>-->
+        </div>
+    <% end %>
+    <%= link_to "", feed_toggler_path(video['id'], :item_type => 'UploadedVideo'), :class => "feed-control", :remote => true %>
+    <%= link_to "", playlist_cover_changer_path(params[:id]||@playlist.id, video['id'], :item_type =>  "UploadedVideo"), :class => "cover_media #{cover_class(@playlist,  video)}", :id => generate_cover_id_from(video), :remote => true %>
+    <span class="awe-cog"></span>
+<% end %>

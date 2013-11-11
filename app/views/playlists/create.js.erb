@@ -1,0 +1,32 @@
+$('.select').html('<%= escape_javascript(render("application/playlist_and_social_nav")) %>');
+$(".playlists li").droppable({
+  accept: '.ui-draggable',
+  tolerance: 'pointer',
+  over: function() {
+    $(this).removeClass('out').addClass('over');
+  },
+  out: function() {
+         $(this).removeClass('over');
+       },
+  drop: function(event, ui) {
+          $(this).removeClass('over').addClass('droped');
+          var playlist_id = $(this).data('id');
+          var $ele = $(ui.draggable);
+          saveAlbumOrImageToPlaylist(playlist_id, $ele.data('type'), $ele.data('id'));
+
+          $.each(id,function(index,val){
+            //$('#'+val).remove();
+          });
+
+          if(checked){
+            // $('.drag-cont').html('');
+          }
+
+        }
+});
+
+function saveAlbumOrImageToPlaylist(playlist_id, type, id) {
+  console.log(playlist_id, type, id);
+  var path = "/playlists/" + playlist_id + "/add_item"
+    $.post(path, {type: type, object_id: id}, null, 'script')
+}

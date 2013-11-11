@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="span4">
+    <%= javascript_include_tag 'jquery.fileupload', 'jquery.fileupload-ui' %>
+    <script type="text/javascript" charset="utf-8">
+        $(function () {
+            $('#new_uploaded_photo').fileUploadUI({
+                uploadTable: $('.upload_files'),
+                downloadTable: $('.download_files'),
+                buildUploadRow: function (files, index) {
+                    var file = files[index];
+                    return $('<tr><td>' + file.name + '<\/td>' +
+                            '<td class="file_upload_progress"><div><\/div><\/td>' +
+                            '<td class="file_upload_cancel">' +
+                            '<div class="ui-state-default ui-corner-all ui-state-hover" title="Cancel">' +
+                            '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                            '<\/div><\/td><\/tr>');
+                },
+                buildDownloadRow: function (file) {
+                    var node = '<li class="span2 ui-draggable" data-type="photo" data-network="upload" data-id="' + file.id + '">' +
+                            '<input id="img_'+ file.id +'" type="checkbox" value="' + file.id + '">' +
+                            '<a class="thumbnail">' +
+                            '<i style="background-image: url('+ file.image_url +');" class="uiMediaThumbImg"></i>' +
+                            '</a>' +
+                            '<a href="#demoModal" data-toggle="modal" class="awe-trash" style="right: 0; "></a></li>';
+                    $('ul#thumbnails').append(node);
+                }
+            });
+        });
+    </script>
+    
+    <%= form_for @upload_photo, :url => upload_photos_user_uploaded_photos_path(current_user.id), :html => {:multipart => true} do |f| %>
+      <span class="btn btn-success ">
+        <i class="icon-plus icon-white"></i>
+        <span class="upload-btn">Add Photos...</span>
+        <input multiple="" name="uploaded_photo[image]" type="file" />
+      </span>
+    <% end %>
+    
+   <table class="upload_files"></table>
+   <table class="download_files"></table>
+    
+  </div>
+</div>
+
+<form class="form-gallery">
+  <ul id="thumbnails" class="thumbnails">    
+    <% @uploaded_photos.each do |photo| %>
+      <%= content_tag :li, data: { type: 'photo', id: photo.id, network: 'upload', caption: photo.caption, tags: photo.tags.map(&:name).join(","), url: update_photo_uploader_path(photo) }, class: 'span2' do %>
+        <input id="img_<%= photo.id %>" type="checkbox" value="<%= photo.id %>">
+        <a title="<%= photo.caption %>" class="thumbnail"  <%= raw('style="opacity: 0.4"') if photo.content_control %>>
+            <i style="background-image: url(<%= photo.image.url(:thumb) %>);" class="uiMediaThumbImg"></i>
+        </a>
+          <%= link_to "", feed_toggler_path(photo.id, :item_type => 'UploadedPhoto'), :class => "feed-control", :remote => true %>
+          <%= link_to "", playlist_cover_changer_path(@playlist_show.id, photo.id, :item_type => "UploadedPhoto"), :class => "cover_media #{cover_class(@playlist_show,  photo)}", :id => generate_cover_id_from(photo), :remote => true %>
+
+        <a href="#demoModal" data-toggle="modal" class="awe-trash" style="right: 0; "></a>
+        <span class="awe-cog"></span>
+      <% end %>
+    <% end %>
+  </ul>
+</form>
+
+<script type="text/javascript">
+    $(function(){
+        $("a.awe-trash").live('click', (function(){
+            $("a.awe-trash").removeClass("selected-media");
+            $(this).addClass("selected-media");
+        }));
+
+        $("#demoModal a[type='submit']").click(function(){
+            var id = $("a.awe-trash.selected-media").parent().attr("data-id");
+            $.ajax({
+                type: "DELETE",
+                url: '/users/<%= current_user.id %>/uploaded_photos/'+id
+            }).done(function(){
+                        $("#demoModal").modal("hide")
+                        window.location = window.location.href;
+                    });
+        });
+    })
+
+</script>

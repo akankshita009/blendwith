@@ -1,0 +1,42 @@
+<% if params[:playlist_id].in? %w(Recent_Music All_Music ) %>
+    <% @playlists.each do |playlist| %>
+        <% playlist.items.each do |item| %>
+            <%= render :partial => 'player/items_new/soundcloud_object', :locals => {object: item.itemizable} %>
+        <% end %>
+    <% end %>
+<% end %>
+
+<% if params[:playlist_id].in? %w(Recent_Music All_Music URL_Audios) %>
+    <% @audio_urls.each do |music_url| %>
+        <a class="thumb awe-play" item-id="<%= music_url.id %>" href="<%= music_url.music_url %>" playlist-id='URL_Audios'>
+          <h3><%= music_url.title %>
+            <!--<div>2:46</div>-->
+          </h3>
+        </a>
+    <% end %>
+<% end %>
+
+<% if params[:playlist_id].in? %w(Recent_Music All_Music Uploaded_Audios) %>
+    <% @uploaded_audios.each do |audio| %>
+        <a class="thumb awe-play" item-id="<%= audio.id %>" href="<%= audio.ori_audio_url %>" playlist-id='Uploaded_Audios'>
+          <h3><%= audio.title %>
+            <!--<div>2:46</div>-->
+          </h3>
+        </a>
+    <% end %>
+<% end %>
+
+<% unless params[:playlist_id].in? %w(Recent_Music All_Music URL_Audios Uploaded_Audios) %>
+    <% @items.each do |item| %>
+        <% audio = item.itemizable %>
+        <% if audio.network.nil? || audio.network == 'soundcloud' %>
+            <%= render :partial => 'player/items_new/soundcloud_object', :locals => {object: audio} %>
+        <% else %>
+            <a class="thumb awe-play" item-id="<%= item.id %>" href="<%= audio.audio_url %>">
+              <h3><%= item.itemizable.title %>
+                <div>2:46</div>
+              </h3>
+            </a>
+        <% end %>
+    <% end %>
+<% end %>

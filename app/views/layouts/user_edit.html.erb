@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <%= render :partial => 'application/head' %>
+  </head>
+  <body style="background: url(/assets/grid.png);">
+    <input id="controller-name-box" type="hidden" value="<%= controller_name %>" />
+
+    <div id="playlist-setting-panel" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>Rename or Delete Playlist</h3>
+        <input type="hidden" /><!-- store id -->
+      </div>
+      <div class="modal-body">
+        <p>
+          <input type="text" />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger">Delete</button>
+        <button class="btn btn-primary">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
+    <!-- Main navigation bar -->
+    <!-- There are 3 navigation styles available.-->
+    <!--    default - fixed on top without any special effect (no extra markup) -->
+    <!--    affix - Bootstrap affix plugin to track page scrolling, you can hide, move or change alpha when scrolled down (navigation.js) -->
+    <!--    arrowed - add class .active-arrow to ul.nav to add arrow for active element -->
+    <%= render :partial => 'application/header' %>
+    <!-- /Main navigation bar -->
+
+    <!-- Main content -->
+    <div class="container" role="main">
+      <%= yield %>
+    </div>
+
+    <div class="drag-cont"></div>
+    <div style="display: none" class="loaded-images"></div>
+    <div id="mask-div">
+      <div class="progress progress-striped active">
+        <div class="bar"></div>
+      </div>
+    </div>
+  </body>
+</html>

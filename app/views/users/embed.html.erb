@@ -1,0 +1,38 @@
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <%= render :partial => 'application/head' %>
+  <%= javascript_include_tag 'plugins/audio', debug: false %>
+  <%= javascript_include_tag 'plugins/player_cheage/video', debug: false %>
+<%#= javascript_include_tag 'http://vjs.zencdn.net/4.0/video.js', debug: false %>
+<%#= javascript_include_tag 'plugins/player_cheage/video-youtube-keating', debug: false %>
+<%#= javascript_include_tag 'plugins/player_cheage/video-for-youtube', debug: false %>
+<%#= javascript_include_tag 'plugins/player_cheage/vjs.youtube', debug: false %>
+  <%= javascript_include_tag 'plugins/player_cheage/video-script', debug: false %>
+  <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js', debug: false %>
+  <%= javascript_include_tag 'http://connect.soundcloud.com/sdk.js'%>
+  <script type="text/javascript">
+      $(function() {
+          SC.initialize({
+              client_id:  '<%= CONFIG[:soundcloud][:client_id] %>',
+              access_token: '<%= @user.soundcloud.try(:access_token) %>'
+          });
+
+          window.player_fullscreen_setting();
+
+          // save window size if player is embed, for existing fullscreen
+          // window, not container
+          window.embed_player_container_size = {
+              height: $(window).height(),
+              width: $(window).width()
+          }
+      });
+  </script>
+</head>
+<body style="padding-top: 0;background: none;">
+    <input type="hidden" id="embed_player_flag" value="true" />
+    <%= render :partial => 'player/media_player' %>
+</body>
+</html>

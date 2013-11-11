@@ -1,0 +1,9 @@
+<% @photos.each do |photo| %>
+  <%= content_tag :li, data: { type: 'photo', id: photo['id'], network: 'instagram' }, class: 'span2' do %>
+    <input id="img_<%= photo['id'] %>" type="checkbox" value="<%= photo['id'] %>">
+    <!--<a class="thumbnail" href="<%#= dashboard_url(:photo_id => photo['id']) %>"><%#= image_tag photo['images']['standard_resolution']['url'], :size => "100x100"  %></a>-->
+
+        <i style="background-image: url(<%= photo['images']['standard_resolution']['url'] %>);" class="uiMediaThumbImg thumbnail"></i>
+    <!-- <span class="awe-cog"></span><a href="#demoModal" data-toggle="modal" class="awe-trash"></a> -->
+  <% end %>
+<% end %>

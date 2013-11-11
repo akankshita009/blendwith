@@ -1,0 +1,14 @@
+
+<h1><%= @conversation.subject %></h1>
+<ul>
+    <%= content_tag_for(:li, @receipts) do |receipt| %>
+        <% message = receipt.message %>
+        <div class="<%= receipt.is_unread? ? 'unread' : 'read' %>">
+          <h3><%= message.subject %></h3>
+          <p>
+            <%= message.body.html_safe %>
+          </p>
+        </div>
+    <% end %>
+</ul>
+<%= render 'messages/form', conversation: @conversation %>

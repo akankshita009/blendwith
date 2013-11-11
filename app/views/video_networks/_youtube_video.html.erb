@@ -1,0 +1,14 @@
+<%# delete by item_id, add to playlist by id %>
+<%= content_tag :li, data: {type: 'video', id: video.id, network: 'youtube', item_id: item_id, video_id: video.video_id}, class: 'span2' do %>
+  <% object = video %>
+  <% playlist = @playlist_show %>
+    <% image = video.image_url %>
+    <% image = "http://img.youtube.com/vi/#{video.video_id}/0.jpg" unless image %>
+    <i style="background-image: url(<%= image %>);" class="uiMediaThumbImg thumbnail video-thumb"></i>
+    <!--<iframe type="text/html" width="285" height="175" src="http://www.youtube.com/embed/<%#= video.video_id %>" frameborder="0" style="display: none;margin: 0;padding: 0;"></iframe>-->
+    <%= link_to "", feed_toggler_path(object.id, :item_type => "#{object.class}"), :class => "feed-control", :remote => true %>
+    <%= link_to "", playlist_cover_changer_path(playlist.id, item.id, :original_playlist_id => item.playlist_id), :class => "cover_media #{cover_class(playlist,  object)}", :id => generate_cover_id_from(object), :remote => true %>
+
+      <a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+      <span class="awe-cog"></span>
+<% end %>

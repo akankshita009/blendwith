@@ -1,0 +1,82 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3>Select Background Music For Slide Show</h3>
+  <input type="hidden"/><!-- store id -->
+</div>
+<div class="modal-body">
+  <ul>
+    <li></li>
+    <%# Actually, there is only Soundcloud here %>
+    <% @playlists.each do |playlist| %>
+        <% items = playlist.items %>
+        <% items.each do |item| %>
+            <% if item %>
+                <% if item.itemizable.network == 'soundcloud' %>
+                    <% music_url = item.itemizable %>
+                    <% if music_url.class == Track %>
+                        <%= content_tag :li, data: {id: music_url.social_network_id, type: 'Soundcloud', url: music_url.social_network_id, title: music_url.title}, class: 'span10' do %>
+                            <label>
+                              <input type="radio" name="music"/>
+                              <%= music_url.title %>
+                            </label>
+                        <% end %>
+                    <% elsif music_url.class == TrackAlbum %>
+                        <% music_url.tracks.each do |track| %>
+                            <%= content_tag :li, data: {id: track.social_network_id, type: 'Soundcloud', url: track.social_network_id, title: track.title}, class: 'span10' do %>
+                                <label>
+                                  <input type="radio" name="music"/>
+                                  <%= track.title %>
+                                </label>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <% @audio_urls.each do |music_url| %>
+        <%= content_tag :li, data: {id: music_url.id, type: 'URL_Audios', url: music_url.music_url, title: music_url.title}, class: 'span10' do %>
+            <label>
+              <input type="radio" name="music"/>
+              <%= music_url.title %>
+            </label>
+        <% end %>
+    <% end %>
+
+    <% @uploaded_audios.each do |music_url| %>
+        <%= content_tag :li, data: {id: music_url.id, type: 'Uploaded_Audios', url: music_url.ori_audio_url, title: music_url.title}, class: 'span10' do %>
+            <label>
+              <input type="radio" name="music"/>
+              <%= music_url.title %>
+            </label>
+        <% end %>
+    <% end %>
+  </ul>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary choose_music">OK</button>
+  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('button.choose_music').click(function () {
+            if ($('li.span10 input[type="radio"]:checked').length == 1) {
+                var li = $('li.span10 input[type="radio"]:checked').parent().parent();
+                $("#background_music_id").val(li.attr('data-id'));
+                $("#background_music_type").val(li.attr('data-type'));
+                $("#background_music_url").val(li.attr('data-url'));
+                $("#background_music_title").val(li.attr('data-title'));
+                $("#background_music_title_label").html(li.attr('data-title'));
+                $("#image-playlist-setting-panel").modal("hide");
+            } else {
+                $.jGrowl("Please select a music.", {
+                    header: '',
+                    sticky: true,
+                    theme: 'info'
+                });
+            }
+        });
+    })
+</script>

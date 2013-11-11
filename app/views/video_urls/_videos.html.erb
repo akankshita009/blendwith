@@ -1,0 +1,13 @@
+<% @video_urls.each do |video| %>
+    <% video_id = video.video_url %>
+    <%= content_tag :li, data: {type: 'video', id: video.id, network: 'youtube_url', object_id: video.id, video_id: video_id, title: video.title, tags: video.tags.map(&:name).join(","), url: video_url_path(video)}, class: 'span2' do %>
+      <% p video.content_control %>
+      <i style="background-image: url(<%= "http://img.youtube.com/vi/#{video_id}/0.jpg" %>); <%= raw('opacity: 0.4') if video.content_control %>" class="uiMediaThumbImg thumbnail video-thumb"></i>
+
+        <%= link_to "", feed_toggler_path(video['id'], :item_type => 'VideoUrl'), :class => "feed-control", :remote => true %>
+        <%= link_to "", playlist_cover_changer_path(@playlist.id, video['id'], :item_type =>  "VideoUrl"), :class => "cover_media #{cover_class(@playlist,  video)}", :id => generate_cover_id_from(video), :remote => true %>
+        <a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+        <span class="awe-cog"></span>
+
+    <% end %>
+<% end %>

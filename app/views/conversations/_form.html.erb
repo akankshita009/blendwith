@@ -1,0 +1,10 @@
+
+<%= simple_form_for :conversation, url: :conversations do |f| %>
+    <%= f.input :recipients, as: :hidden, :input_html => { :value => @user.id }  %>
+    <%= f.input :subject, :input_html => {style: 'width: 500px;'} %>
+    <%= f.input :body, as: :text, :input_html => { :cols => 50, :rows => 10, :style => 'width: 500px;' } %>
+    <div class="form-actions" style="padding-left: 0">
+      <%= f.button :submit, class: 'btn btn-wuxia btn-normal btn-primary' %>
+      <%#= submit_tag 'Cancel', type: :reset, class: 'btn btn-wuxia btn-normal btn-danger' %>
+    </div>
+<% end %>

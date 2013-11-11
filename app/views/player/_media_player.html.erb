@@ -1,0 +1,395 @@
+<%= javascript_include_tag 'plugins/screenfull.min', debug: false %>
+
+<section id="block">
+<div id="video-header">
+  <div class="left-header">
+    <a href="javascript:void(0)" id="back"></a>
+    <a href='javascript:void(0)' class="home-btn"></a>
+    <a href="javascript:void(0)" id="forward"></a>
+  </div>
+  <div class="center-header">
+    <a href='javascript:void(0)' class="video-btn" title="video"></a>
+    <a href='javascript:void(0)' class="photo-btn" title="photo"></a>
+    <a href='javascript:void(0)' class="chart-btn" title="music"></a>
+    <a href="javascript:void(0)" class="now-play" title="now playing music"></a>
+    <!--background: url(/assets/images/video-js.png) -50px 0;-->
+  </div>
+  <div class="right-header">
+    <a href="javascript:void(0)" id="blend">Blend<span>With</span></a>
+  </div>
+</div>
+<!----------- top player --------->
+<video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="730" height="410" poster="/assets/video/poster.png" data-setup="{}">
+  <source src="video/nature.mp4" type='video/mp4'/>
+  <!--                                        <source src="video/nature.webm" type='video/webm' />-->
+  <!--                                        <source src="video/nature.ogv" type='video/ogg; codecs="theora, vorbis"' />-->
+  <track kind="captions" src="captions.vtt" srclang="en" label="English"/>
+  <p>Video is not visible, most likely your browser does not support HTML5 video</p>
+</video>
+
+<% if @media && params["playlist_type"] == "photo" %>
+    <%= render 'player/background_music' %>
+    <%= render :partial => 'player/single/player' %>
+    <script type="text/javascript">
+      $(function(){
+          $('#player-navigation').hide();
+
+          window.curr_item = 'photo';
+
+          // see the codes in video-script.js (search player.php) here use #gallery but not #result
+          // at last, if there is more than one photo then play otherwise dont play
+          if($('#gallery .photo').length > 1) {
+              window.play_image_sideshow($('.vjs-slideshow-button'));
+              $('.vjs-slideshow-button').show();
+              $('.vjs-prev-button').show();
+              $('.vjs-next-button').show();
+          } else {
+              $('.vjs-slideshow-button').hide();
+              $('.vjs-prev-button').hide();
+              $('.vjs-next-button').hide();
+          }
+      })
+    </script>
+<% end %>
+
+<audio preload="none"></audio>
+
+<div class="player-master" <%= 'style="display:none"' if params['photo'] %>>
+  <!--<h1>A Wedding in the Sky</h1>-->
+  <!--<span>By Justin Kempiak 2 days ago  | Big Life Changes</span>-->
+
+  <!--<p>-->
+    <!--This player is the chronicle of the year 2012 which was filled with much love, happiness, and life changes. Check-->
+    <!--out the November album to see all of the photos from the big day.</br>-->
+    <!--</br>-->
+    <!--Tags: Wedding, Stories, Chicago, Sears Tower, Holy Name-->
+  <!--</p>-->
+</div>
+
+<% if @user.allowed_to_embed_player?(current_user) %>
+  <div id="share">
+    <div class="share-form">
+      <a class="close"></a>
+
+      <div class="player-social">
+        <h3>Share your Blendwith</h3>
+        <a class="share-facebook"></a>
+        <a class="share-twitter"></a>
+        <a class="share-google-plus"></a>
+      </div>
+      <div class="player-email">
+        <h3>Email your Blendwith</h3>
+        <a class="share-email"></a>
+      </div>
+      <h3>Link to your Blendwith</h3>
+      <input type="text" value="http://blendwith.com/<%= @user.username %>">
+
+      <h3>Embed your Blendwith</h3>
+      <textarea><iframe width="730" height="436" src="//blendwith.com/embed/<%= @user.player_token %>" frameborder="0" allowfullscreen></iframe></textarea>
+    </div>
+  </div>
+<% end %>
+
+<!----------- /video --------->
+
+<div id="player-navigation" <%= 'style="display:none"' if (params['video'] || params['audio'] || params['photo']) %>>
+
+<!----------- Thumbnails --------->
+
+<div id="thumbnails">
+<div class="scrollbar">
+  <div class="scroller"></div>
+</div>
+
+<div class="thumbnail-wrapper video">
+  <h2><%= @user.first_name %>'s Video Playlists</h2>
+
+  <div class="thumbs playlist" user-id="<%= @user.id %>" playlist-type="video">
+
+    <div>
+
+      <a class="thumb" href="#" playlist-id="All_Videos">
+        <img class="overlay" src="/assets/overlay.png" alt=""/>
+          <img src="<%= playlist_thumb @playlists, 'AllVideos' %>" alt=""/>
+
+        <h3>All Videos</h3>
+      </a>
+
+      <a class="thumb" href="#" playlist-id="Recent_Videos">
+        <img class="overlay" src="/assets/overlay.png" alt=""/>
+          <img src="<%= playlist_thumb @playlists, 'RecentVideos' %>" alt=""/>
+
+        <h3>Recent Videos</h3>
+      </a>
+
+      <a class="thumb" href="#" playlist-id="URL_Videos">
+        <img class="overlay" src="/assets/overlay.png" alt=""/>
+          <img src="<%= playlist_thumb @playlists, 'VideosURL' %>" alt=""/>
+
+        <h3>+URL</h3>
+      </a>
+
+      <a class="thumb" href="#" playlist-id="Uploaded_Videos">
+        <img class="overlay" src="/assets/overlay.png" alt=""/>
+          <img src="<%= playlist_thumb @playlists, 'MyVideos' %>" alt=""/>
+
+        <h3>Uploaded</h3>
+      </a>
+
+      <% @video_lists.each do |list| %>
+          <a class="thumb" href="#" playlist-id="<%= list.id %>">
+            <img class="overlay" src="/assets/overlay.png" alt=""/>
+            <img src="<%= list.cover_image.url(:thumb) %>" alt=""/>
+
+            <h3><%= list.name %></h3>
+          </a>
+      <% end %>
+    </div>
+  </div>
+
+</div>
+
+<div class="thumbnail-wrapper photo">
+  <h2><%= @user.first_name %>'s Photo Playlists</h2>
+
+  <div class="thumbs playlist" user-id="<%= @user.id %>" playlist-type="photo">
+
+    <div>
+      <a class="thumb" href="#" playlist-id="All_Photos">
+        <img class="bg" src="/assets/photo-bg.png" alt=""/>
+
+        <div>
+          <img class="overlay" src="/assets/overlay.png" alt=""/>
+          <img src="<%= playlist_thumb @image_playlists, 'AllPhotos' %>" alt=""/>
+        </div>
+        <h3>All Photos</h3>
+      </a>
+
+      <a class="thumb" href="#" playlist-id="Recent_Photos">
+        <img class="bg" src="/assets/photo-bg.png" alt=""/>
+
+        <div>
+          <img class="overlay" src="/assets/overlay.png" alt=""/>
+          <img src="<%= playlist_thumb @image_playlists, 'RecentPhotos' %>" alt=""/>
+        </div>
+        <h3>Recent Photos</h3>
+      </a>
+
+      <a class="thumb" href="#" playlist-id="URL_Photos">
+        <img class="bg" src="/assets/photo-bg.png" alt=""/>
+
+        <div>
+          <img class="overlay" src="/assets/overlay.png" alt=""/>
+          <img src="<%= playlist_thumb @image_playlists, 'URL' %>" alt=""/>
+        </div>
+        <h3>+URL</h3>
+      </a>
+
+      <a class="thumb" href="#" playlist-id="Uploaded_Photos">
+        <img class="bg" src="/assets/photo-bg.png" alt=""/>
+
+        <div>
+          <img class="overlay" src="/assets/overlay.png" alt=""/>
+          <img src="<%= playlist_thumb @image_playlists, 'MyPhotos' %>" alt=""/>
+        </div>
+        <h3>Uploaded</h3>
+      </a>
+
+      <% @image_lists.each do |list| %>
+          <a class="thumb" href="#" playlist-id="<%= list.id %>">
+            <img class="bg" src="/assets/photo-bg.png" alt=""/>
+
+            <div>
+              <img class="overlay" src="/assets/overlay.png" alt=""/>
+              <img src="<%= list.cover_image.url(:thumb) %>" alt=""/>
+            </div>
+            <h3><%= list.name %></h3>
+          </a>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<div class="thumbnail-wrapper audio">
+  <h2><%= @user.first_name %>'s Audio Playlists</h2>
+
+  <div class="thumbs playlist" user-id="<%= @user.id %>" playlist-type="audio">
+    <div>
+      <a class="thumb" href="#" playlist-id="All_Music">
+        <img class="overlay" src="/assets/overlay.png" alt=""/>
+        <img src="<%= playlist_thumb @audio_lists, 'AllMusic' %>" alt=""/>
+
+        <h3>All Music</h3>
+      </a>
+
+      <a class="thumb" href="#" playlist-id="Recent_Music">
+        <img class="overlay" src="/assets/overlay.png" alt=""/>
+        <img src="<%= playlist_thumb @audio_lists, 'AllMusic' %>" alt=""/>
+
+        <h3>Recent Music</h3>
+      </a>
+
+      <a class="thumb" href="#" playlist-id="URL_Audios">
+        <img class="overlay" src="/assets/overlay.png" alt=""/>
+        <img src="<%= playlist_thumb @audio_lists, 'URL' %>" alt=""/>
+
+        <h3>Podcasts</h3>
+      </a>
+
+      <a class="thumb" href="#" playlist-id="Uploaded_Audios">
+        <img class="overlay" src="/assets/overlay.png" alt=""/>
+        <img src="<%= playlist_thumb @audio_lists, 'Upload' %>" alt=""/>
+
+        <h3>Uploaded</h3>
+      </a>
+
+      <% @audio_lists.each do |list| %>
+          <a class="thumb" href="#" playlist-id="<%= list.id %>">
+            <img class="overlay" src="/assets/overlay.png" alt=""/>
+            <img src="/assets/thumb.png" alt=""/>
+
+            <h3><%= list.name %></h3>
+          </a>
+      <% end %>
+
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .toggle-caption {
+    background-image: url(/assets/caption.png);
+    width: 17px !important;
+    height: 13px !important;
+    margin-top: 7px;
+    margin-right: 10px;
+  }
+</style>
+
+<a class="arr-left"></a>
+<a class="arr-right"></a>
+<div class="video-header"  style="position: absolute; z-index: 100; bottom: 0; width: 100%; padding: 0px;">
+  <div class="right-header" style="clear: both; width: auto;">
+    <% if @user.allowed_to_embed_player?(current_user) %>
+      <a href="javascript:void(0)" class="embed-player-btn" title="embed the player on other pages" style="background: url(/assets/icons-sprite.png) -200px -99px;"></a>
+    <% end %>
+    <a href="javascript:void(0)" class="fullscreen" title="full screen" style="background: url(/assets/images/video-js.png) -45px 6px;"></a>
+  </div>
+</div>
+<!----------- Intro --------->
+
+<div class="nav-intro">
+  <h2><%= @user.player_title %></h2>
+
+  <div class="intro-menu">
+    <a href="javascript:void(0)" class="home-btn"></a>
+    <a href="javascript:void(0)" class="video-btn"></a>
+    <a href="javascript:void(0)" class="photo-btn"></a>
+    <a href="javascript:void(0)" class="chart-btn"></a>
+  </div>
+  <!--<img src="/assets/user-photo.jpg" alt=""/>-->
+  <% if @user.cover_photo %>
+      <i class="cover-image-i" style="background-image: url(<%= @user.cover_photo.cover_photo.url.to_s %>)"></i>
+  <% end %>
+
+  <div class="intro-overlay"></div>
+</div>
+<article class="bio">
+  <img src="<%= image_by_user @user %>"/>
+
+  <div id="info">
+    
+
+    <p><%= @user.player_description %></p>
+  </div>
+</article>
+
+<!----------- /Intro --------->
+</div>
+
+<!----------- /Thumbnails --------->
+
+
+</div>
+<!-- #video-navigation -->
+<div id="result" style="display:none">
+  <% if @media && params["playlist_type"] == "video" %>
+      <%= render 'player/single/player' %>
+      <% if @media.network == 'uploaded_video' %>
+          <script type="text/javascript">
+              $(function () {
+                  $('#player-navigation').hide();
+                  myPlayer.src($('#video_url').html());
+                  myPlayer.addEvent("loadstart", function () {
+                      myPlayer.play();
+                  });
+                  $('.player-master').html($('#video_desc').html());
+                  curr_item = 'video';
+              })
+          </script>
+      <% elsif @media.network == 'youtube' %>
+          <script type="text/javascript">
+              $(function () {
+                  $('#player-navigation').hide();
+                  $('.vjs-big-play-button').hide();
+                  $(".vjs-volume-level").width('90%');
+                  $(".vjs-volume-handle").css("left", '80%');
+//                  $('.audiojs').fadeOut(300);
+
+                  $("#example_video_1").append("<div id='ytapiplayer'></div>");
+                  var params = { allowScriptAccess: "always" };
+                  var atts = { id: "myytplayer" };
+                  swfobject.embedSWF("http://www.youtube.com/v/" + $('#video_url').html() + "?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=0&controls=0&autohide=1&color=white&theme=light",
+                          "ytapiplayer", "425", "356", "8", null, null, params, atts);
+
+//                  $('#gallery').remove();
+//                  player_master.html(result.find('#video_desc').html());
+                  $('.player-master').html($('#video_desc').html());
+                  curr_item = 'video';
+              })
+          </script>
+      <% end %>
+  <% end %>
+
+
+  <% if @media && params["playlist_type"] == "audio" %>
+      <%= render 'player/single/player' %>
+
+      <% if @media.network == 'soundcloud' %>
+        <script type="text/javascript">
+          $(function(){
+              $('#player-navigation').hide();
+              $('.vjs-big-play-button').hide();
+              $('.player-master').html($('#audio_desc').html());
+              $(".audiojs").addClass('playing').addClass('loading');
+              window.setup_soundcloud_player(window.shared_audio, '<%= @media.social_network_id %>');
+              window.shared_audio.play();
+//              setTimeout(function(){$('.audiojs').show()}, 1000);
+              curr_item = 'audio';
+          });
+        </script>
+        <style>
+            .audiojs {display: block;}
+        </style>
+      <% else %>
+          <script type="text/javascript">
+              $(function(){
+                  $('#player-navigation').hide();
+                  $('.vjs-big-play-button').hide();
+                  $('.player-master').html($('#audio_desc').html());
+                  window.general_audio_settings(window.shared_audio, '<%= @media.audio_url %>');
+                  window.shared_audio.play();
+                  curr_item = 'audio';
+              });
+          </script>
+          <style>
+              .audiojs {display: block;}
+          </style>
+      <% end %>
+  <% end %>
+</div>
+
+</section>
+

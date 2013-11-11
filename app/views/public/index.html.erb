@@ -1,0 +1,27 @@
+<!--h1>Public#index</h1>
+<p>Find me in app/views/public/index.html.erb</p-->
+<%#= link_to_if user_signed_in?, "Sign out", destroy_user_session_path, :method => :delete do %>
+  <%#= link_to "Login", new_user_session_path %>
+<%# end %>
+<%= render :partial => 'application/header' %>
+<section id="log">
+		<div class="log-in">
+			<div class="log-top">
+				<h2>Join Blend With. Updates All in One Place</h2>
+				<p>Sign in with to the social buttons</p>
+				<a href="/users/auth/facebook" class="face"><%=image_tag('log-face.png')%></a>
+				<a href="/users/auth/twitter" class="twett"><%=image_tag('log-twett.png')%></a>
+			</div>
+			<div class="log-bottom">
+				<p>or log in using your email:</p>
+				<form accept-charset="UTF-8" action="/users/sign_in" class="new_user" id="new_user" method="post">
+				<div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="giF4ZWQt+DoKrqz+TYa9tqNmkuo9jpig631CGgT/WUM=" /></div>
+					<input autofocus="autofocus" class="mail" id="user_email" name="user[email]" placeholder="Choose a Username" size="30" type="email" value="" /></br>
+					<input class="passw" id="user_password" name="user[password]" placeholder="Choose a Password" size="30" type="password" /></br>
+					<input name="user[remember_me]" type="hidden" value="0" /><input class="check fleft" id="user_remember_me" name="user[remember_me]" type="checkbox" value="1" /> <label class="fleft" for="user_remember_me">Remember me</label>
+					<a href="/users/password/new" class="fog fright">forgot Your password ?</a>
+				</form>
+				<a href="#" class="btns"  onClick="$('#new_user').submit();">Log In</a>
+			</div>
+		</div>
+</section>

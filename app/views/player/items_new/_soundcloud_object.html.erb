@@ -1,0 +1,12 @@
+<% if object.class == Track %>
+    <% track = object %>
+    <a class="thumb awe-play" item-id="<%= track.social_network_id %>" href="<%= track.social_network_id %>" playlist-id='Soundcloud'>
+      <h3><%= track.title %></h3>
+    </a>
+<% elsif object.class == Collection %>
+    <% object.tracks.each do |track| %>
+        <a class="thumb awe-play" item-id="<%= track.social_network_id %>" href="<%= track.social_network_id %>" playlist-id='Soundcloud'>
+          <h3><%= track.title %></h3>
+        </a>
+    <% end %>
+<% end %>

@@ -1,0 +1,19 @@
+<% @friends.map {|friend| friend.friend }.each do |user| %>
+    <% next unless user %>
+    <div class="span3 friend-span">
+      <a href="<%= user_path user %>" target="_blank"><img style="float: left" src="<%= image_by_user user %>"/></a>
+      <div style="padding: 5px 0 0 5px;float: left;">
+        <a href="<%= user_path user %>" style="color: #fa9300;" target="_blank"><%= user_name user %></a>
+        <br>
+        Software engineer
+        <br>
+        <b>Live in</b> Chicago, US
+        <br>
+        <!--<a href="#" data-id="<%#= user.id %>" class="add-friend">+Add</a>-->
+        <!--<span style="color: green;display: none;" class="friend">Friend</span>-->
+        <!--<span style="color: #fa9300;display: none;" class="pending">Pending</span>-->
+      </div>
+    </div>
+<% end %>
+
+<%= paginate @friends, :remote => true, :theme => 'friends' %>

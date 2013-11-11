@@ -1,0 +1,12 @@
+
+<%= content_tag :li, data: {type: 'video', id: video.id, network: 'youtube', video_id: video.video_id, tags: video.tags.map(&:name).join(","), url: video_path(video), :title => video.title}, class: 'span2' do %>
+    <i style="background-image: url(<%= video.image_url %>);" class="uiMediaThumbImg thumbnail video-thumb"></i>
+    <!--<iframe type="text/html" width="285" height="175" src="http://www.youtube.com/embed/<%#= video.video_id %>" frameborder="0" style="display: none;margin: 0;padding: 0;"></iframe>-->
+    <div>
+    <%= link_to "", feed_toggler_path(video.id, :item_type => 'Video'), :class => "feed-control", :remote => true %>
+    <%= link_to "", playlist_cover_changer_path(@playlist.id, video.id, :item_type =>  "Video"), :class => "cover_media #{cover_class(@playlist,  video)}", :id => generate_cover_id_from(video), :remote => true %>
+      <a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+      <span class="awe-cog"></span>
+      <label><%= video.title %></label>
+    </div>
+<% end %>

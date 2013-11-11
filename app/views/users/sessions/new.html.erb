@@ -1,0 +1,28 @@
+<%= render :partial => 'application/header' %>
+<section id="log">
+		<div class="log-in">
+			<div class="log-top">
+				<h2>Join Blend With. Updates All in One Place</h2>
+				<p>Sign in with to the social buttons</p>
+				<a href="/users/auth/facebook" class="face"><%=image_tag('log-face.png')%></a>
+				<a href="/users/auth/twitter" class="twett"><%=image_tag('log-twett.png')%></a>
+			</div>
+			<div class="log-bottom">
+				<p>or log in using your email:</p>
+				<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+				 <%= render 'layouts/flash_messages' %>
+				 <p id="notice"><%= flash[:notice] %></p>
+					<%= f.email_field :email, :autofocus => true , :placeholder=>"Choose a Username",:class=>"mail"%></br>
+					<%= f.password_field :password ,:placeholder=>"Choose a Password",:class=>"passw"%></br>
+					<% if devise_mapping.rememberable? -%>
+						<%= f.check_box :remember_me ,:class=>"check fleft"%> <%= f.label :remember_me ,:class=>"fleft"%>
+					<% end -%>
+					
+					<a href="/users/password/new" class="fog fright">forgot Your password ?</a>
+					<%#= render "devise/shared/links" %>
+					<div><%#= f.submit "Sign in", class: 'btns' %></div>
+				<% end %>
+				<a href="#" class="btns" onClick="$('#new_user').submit();">Log In</a>
+			</div>
+		</div>
+</section>

@@ -1,0 +1,11 @@
+
+<%= form_tag create_twitter_user_users_path do %>
+    <% if @user %>
+        <%= render 'shared/error_messages', object: @user %>
+    <% end %>
+    Please enter your email:
+    <br>
+    <input type="text" name="email" />
+    <br>
+    <input type="submit" class="btn" />
+<% end %>

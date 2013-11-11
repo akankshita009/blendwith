@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="span4 offset1">
+    <%= javascript_include_tag 'jquery.fileupload', 'jquery.fileupload-ui' %>
+    <script type="text/javascript" charset="utf-8">
+        $(function () {
+            $('#new_uploaded_photo').fileUploadUI({
+                uploadTable:$('.upload_files'),
+                downloadTable:$('.download_files'),
+                buildUploadRow:function (files, index) {
+                    var file = files[index];
+                    return $('<tr><td>' + file.name + '<\/td>' +
+                            '<td class="file_upload_progress"><div><\/div><\/td>' +
+                            '<td class="file_upload_cancel">' +
+                            '<div class="ui-state-default ui-corner-all ui-state-hover" title="Cancel">' +
+                            '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                            '<\/div><\/td><\/tr>');},
+                buildDownloadRow:function (file) {
+                    node = '<li class="offset1 span2 ui-draggable" data-type="photo" data-network="upload" data-id="' + file.id + '">' +
+                            '<input id="img_' + file.id + '" type="checkbox" value="' + file.id + '"' +
+                            '<a class="thumbnail">' +
+                            '<img alt="new_uploaded_photo" src="' + file.image_url + '">' +
+                            '</a></li>';
+                    $('ul#thumbnails').append(node);
+                }
+            });
+        });
+    </script>
+
+    <%= form_for @cover_photo, :url => upload_photos_user_cover_photos(current_user.id), :html => {:multipart => true} do |f| %>
+      <span class="btn btn-success ">
+        <i class="icon-plus icon-white"></i>
+        <span class="upload-btn">Add Photos...</span>
+        <input multiple="" name="uploaded_photo[cover_photo]" type="file" />
+      </span>
+    <% end %>
+
+    <!--<table class="upload_files"></table>-->
+    <!--<table class="download_files"></table>-->
+
+  </div>
+</div>
+
+<form class="form-gallery">
+  <ul id="thumbnails" class="thumbnails">
+    <% @uploaded_photos.each do |photo| %>
+        <%= content_tag :li, data: { type: 'photo', id: photo.id, network: 'upload' }, class: 'offset1 span2' do %>
+            <input id="img_<%= photo.id %>" type="checkbox" value="<%= photo.id %>">
+            <!--<a class="thumbnail"><%= image_tag photo.image.url.to_s, :size => "100x100"  %></a>-->
+            <i style="background-image: url(<%= photo.image.url %>);" class="uiMediaThumbImg thumbnail"></i>
+        <% end %>
+    <% end %>
+  </ul>
+</form>

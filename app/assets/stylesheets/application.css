@@ -1,0 +1,487 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+.jp-controls a:hover {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+#mask-div {position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 9999;background: #000;opacity: 0.8;display: none;}
+#mask-div .progress{ width: 200px;margin: 300px auto; }
+#mask-div .progress .bar {width: 100%;}
+
+a.icon.delete {
+    background: url(trash.png) 0 50% no-repeat;
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin-top: 5px;
+    float: right;
+}
+
+article.span10.special {
+    padding-bottom: 100px;
+}
+
+div.content {
+    padding: 30px;
+}
+
+/*.select ul li.playlist-user-add:hover {*/
+    /*background: url(setting.png) 98% 50% no-repeat #f6f6f6;*/
+/*}*/
+a.playlist-setting, a.slide-show-setting {
+    height: 16px;
+    width: 16px;
+    background: url(setting.png) 0 50% no-repeat #f6f6f6;
+    float: right;
+    display: none;
+}
+
+span.playlist-setting {
+    cursor: pointer;
+}
+
+#name-playlist-detail {
+    font-size: 22.75px;
+}
+
+#new_uploaded_video, #new_uploaded_audio {
+    background: transparent;
+}
+
+.thumbnail > img {
+    width: 275px;
+    height: 165px;
+}
+
+li.span2.ui-draggable label {
+    display: block;
+    height: 16px;
+    font-style: normal;
+    color: #fa9300;
+}
+
+/* just for override wuxia.css */
+div.row-fluid #thumbnails li span,  div.row-fluid #thumbnails li a.awe-trash {
+    position: static;
+    float: right;
+}
+
+#thumbnails li.with-title span, #thumbnails li.with-title a.awe-trash {
+    bottom: 0;
+}
+
+#thumbnails li.audio-li span, #thumbnails li.audio-li a.awe-trash {
+    bottom: 3px;
+}
+
+.audio-li {
+    border: 1px solid #ccc;
+    padding: 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+
+div.friend-panel {
+    /*background-color: #F6F6F6;*/
+    min-height: 450px;
+    margin: 0;
+    padding: 20px 0 0 0;
+    position: relative;
+}
+
+.friend-panel img {
+    border: 1px solid #ccc;
+    background: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#pending_friends, #request_friends, #all_friends {
+    display: none;
+}
+
+.uiMediaThumbImg {
+    display: block;
+    height: 165px;
+    background-size: cover;
+    /*border: 0;*/
+    background-position: 50% 25%;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+i.uiMediaThumbImg-player {
+    display: block;
+    height: 110px;
+    background-size: cover;
+    /*border: 0;*/
+    background-position: 50% 25%;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.video-back {
+    margin-bottom: 10px;
+    height: 175px;
+    /*padding: 0;border: 0;height:175px;*/
+}
+
+div.friend-span {
+    margin: 0 30px 10px 0;
+}
+
+span.upload-btn {
+    font-size: 13px;
+}
+
+/*span.prev, span.next {*/
+    /*position: absolute;*/
+    /*top: 45%;*/
+/*}*/
+
+
+/* only for override */
+body span {
+/*    font-size: 20px;*/
+}
+
+span.prev {
+    left: -60px;
+}
+
+span.next {
+    right: 0px;
+}
+
+/*span.prev a, span.next a {*/
+    /*display: block;*/
+    /*height: 48px;*/
+    /*width: 48px;*/
+/*}*/
+
+/*span.prev a {*/
+    /*background: url(prev.png);*/
+/*}*/
+
+/*span.next a {*/
+    /*background: url(next.png);*/
+/*}*/
+
+div.feed {
+    cursor: pointer;
+}
+
+.feed-container .feed.picasa h3{
+    background: url(/assets/icons/googleplus.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+.feed-container .feed.flickr h3{
+    background: url(/assets/icons/flickr-new.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+.feed-container .feed.youtube h3{
+    background: url(/assets/icons/youtube_new.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+.feed-container .feed.soundcloud h3{
+    background: url(/assets/icons/soundcloud_new.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+/* for uploaded_video, upload, url */
+.feed-container .feed h3 {
+    background: url(/assets/icons/blendwith_icon.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+a.orange-btn, button.orange-btn {
+    color: #fff;
+    background: #f58f00;
+    /*display: inline-block;*/
+    /*font-size: 14px;*/
+    /*font-weight: normal;*/
+    /*line-height: 20px;*/
+    /*text-align: center;*/
+    /*vertical-align: middle;*/
+    /*cursor: pointer;*/
+    border: none;
+
+    padding: 5px 12px;
+    /*margin-bottom: 10px;*/
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    /*-webkit-border-radius: 4px;*/
+    /*-moz-border-radius: 4px;*/
+    /*border-radius: 4px;*/
+    text-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
+a.orange-btn:hover, button.orange-btn:hover {
+    color: #ffffff;
+    background-color: #e18300;
+    *background-color: #e18300;
+    text-decoration: none;
+}
+
+li.playlist-user-add:hover a.slide-show-setting {
+    display: inline;
+}
+
+#set_feed_div span {
+    cursor: default;
+}
+
+#set_feed_div span {
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+}
+
+form.reply-form {
+    background: transparent;
+}
+
+form.reply-form textarea {
+    width: 500px;height: 100px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul#comments {
+    margin-left: 50px;
+}
+
+ul.replies {
+    margin-top: 10px;
+}
+
+#comments li {
+    position: relative;
+}
+
+#comments li i {
+    position: absolute;
+    top: 0;
+    left: -50px;
+    width: 40px;
+    height: 40px;
+}
+
+#myytplayer {
+    position: absolute;top: 0;left: 0;width: 100%;height: 100%;
+}
+
+i.cover-image-i {
+    background-size: cover;
+    background-position: 50% 25%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+div.scrollbar {
+    overflow: hidden;
+}
+
+/*-------------------message box---------------------*/
+
+.notice, .warn, .error {
+    float: left;
+    width: 97%;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.notice {
+    background: rgb(191, 238, 160);
+}
+
+.warn {
+    background: lightYellow;
+}
+
+.error {
+    background: #f2dede;
+}
+
+.notice p, .warn p, .error p {
+    float: left;
+    width: 100%;
+    color: #777;
+}
+
+/*---------------------override wuxia------------------------*/
+div.span10.center {
+    width: 650px;
+}
+
+@media (max-width: 767px) {
+    div.span10.center {
+        width: auto;
+    }
+}
+/*----------------------------------------------*/
+
+#image-playlist-setting-panel li.span10 input {
+    margin-top: -2px;
+}
+
+#image-playlist-setting-panel li label {
+    cursor: pointer;
+}
+
+/*--------------embed player--------------------*/
+
+/*-----simple form begin-----*/
+
+.simple_form {
+    padding: 20px;
+}
+
+.simple_form.conversation {
+    background: url(/assets/grid.png);
+    /*background: #e0e0e0;*/
+    margin-top: 30px;
+}
+
+.simple_form.conversation .form-actions {
+    background: url(/assets/grid.png);
+}
+
+/*-----simple form end-----*/
+
+/* the title of a photo */
+#thumbnails li label {
+    padding-left: 5px;
+    margin-bottom: 0;
+}
+
+/*-------------------------*/
+
+video {
+    background: #000;
+}
+
+/*-------------------------*/
+
+article.span2.special {
+    position: fixed;
+}
+
+article.span2.special div.select ul.playlists {
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.vjs-fullscreen-control {
+    display: none;
+}
+
+section#block {
+    background: #000;
+}
+
+/* this works */
+/*#gallery:-webkit-full-screen	{ width: 100% }*/
+/*#gallery:-moz-full-screen		{ width: 100% }*/
+/*#gallery:-ms-full-screen		{ width: 100% }*/
+/*#gallery:-o-full-screen		{ width: 100% }*/
+/*#gallery:full-screen			{ width: 100% }*/
+
+
+/*ul.replies {*/
+    /*margin-left: 50px;*/
+/*}*/
+
+/*span.count {*/
+    /*font-size: 12px;*/
+    /*font-weight: bold;*/
+    /*font-style: italic;*/
+    /*color: #777;*/
+/*}*/
+
+/*div.progress {*/
+    /*background: #f7f7f7;*/
+/*}*/
+
+/*#playlist-setting-panel {z-index: 9999;}*/
+
+.feed-control {
+  background-image: url(/assets/feed_control.png);
+  display:inline-block;
+  height:19px;
+  width:17px;
+}
+
+.cover_media {
+  background-image: url(/assets/cover_media.png);
+  display:inline-block;
+  height:18px;
+  width:17px;
+  margin-left: 5px;
+}
+
+.opacity-pro {
+   opacity: 0.5; 
+}
+
+/* playlist title begin */
+
+.playlist-title {
+   margin-left: 10px;
+}
+
+
+/* playlist title end */
+
+.highlight {
+  background-image: url(/assets/current_cover_media.png)
+}
+
+.audio-cog {
+  position: absolute;
+  left: 80%;
+  z-index: 100;
+}

@@ -1,0 +1,43 @@
+development:
+  facebook:
+    #app_id: 393292944111909
+    #app_secret: 302e1dbd71424d4e26ed383d36df9dc1
+    app_id: 585795171455719
+    app_secret: d6ff7e9218ad2799d03eff7cdca0815b
+  instagram:
+    client_id: 40a056be6dae46bc80ff633a1b1b0118
+    client_secret: 77cfdf7510e34d9daa12669d242c9415
+  google:
+    client_id: 917594095860-9f96qj5u4gs91ut2qfg7qi7b4533a06d.apps.googleusercontent.com
+    client_secret: JWMVKiKRm2Ov7b9c5JcaRHwQ
+  twitter:
+    consumer_key: JgR9GnAkZmSFKz0ekJfKxQ
+    consumer_secret: rj6fr3I6x7Q6dODiaQoSFBt0GXN6U2OWeGkNyP9I
+
+  flickr:
+    api_key: 5431419b65aa6da99f89f0ea1916721c
+    api_secret: 583c4b503a23fad9
+  soundcloud:
+    client_id: d3eec26cb3b4b16cedb8bc9414dea7be
+    client_secret: e11229531ddfb2fbc6d19553da44cdd3
+
+
+production:
+  facebook:
+    app_id: 500025016701156
+    app_secret: 436662dad7c37a5286a4b3d37fe26c26
+  instagram:
+    client_id: fc466654c7284849b4166ed744b4bff0
+    client_secret: f375de8badc74049b1f97db3dd2c1e02
+  google:
+    client_id: 917594095860-igplbba83asle9s9geb5k8a3gemm5tpv.apps.googleusercontent.com
+    client_secret: aLxBEcWJLnVMwtFeWNl7qlvR
+  twitter:
+    consumer_key: JgR9GnAkZmSFKz0ekJfKxQ
+    consumer_secret: rj6fr3I6x7Q6dODiaQoSFBt0GXN6U2OWeGkNyP9I
+  flickr:
+    api_key: a585f8027d41c620a9a6e4392623ca35
+    api_secret: 591cc25980d28b3b
+  soundcloud:
+    client_id: 2787cc2caa33c83ca40303755d1eb750
+    client_secret: c10d616595df96b5dc0b713ed74a684c

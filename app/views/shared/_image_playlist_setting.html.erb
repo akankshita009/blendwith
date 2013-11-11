@@ -1,0 +1,56 @@
+<div style="position: fixed;top: 78px;">
+<%= form_for @playlist_show do |f| %>
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="input">Caption</label>
+
+        <div class="controls">
+          <%= f.text_field :name, class: 'input-xlarge', placeholder: 'Caption here' %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="optionsCheckbox">Slideshow</label>
+        <div class="controls">
+          <label class="checkbox">
+            <%= f.check_box :slide_show %>
+            on
+          </label>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="select">Transition</label>
+        <div class="controls">
+          <%= f.select :transition, options_for_select([['None', 'None'],['Slide','Slide'],['Dissolve','Dissolve']], @playlist_show.transition) %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="input">Delay (In Secs)</label>
+        <div class="controls">
+          <%= f.select :delay_second, options_for_select((1..10).collect {|x| [x, x] }, @playlist_show.delay_second) %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="input">Background Music</label>
+        <div class="controls">
+          <!--<input class="input-xlarge" type="text" name="tags" placeholder="Background Music (from my music library)">-->
+          <%= f.hidden_field :background_music_id, :id => 'background_music_id' %>
+          <%= f.hidden_field :background_music_type, :id => 'background_music_type' %>
+          <%= f.hidden_field :background_music_url, :id => 'background_music_url' %>
+          <%= f.hidden_field :background_music_title, :id => 'background_music_title' %>
+          <label id="background_music_title_label"><%= @playlist_show.background_music_title %></label>
+          <a href="#" class="btn" id="choose_music">Select Music</a>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-wuxia btn-normal btn-primary" type="submit">Save changes</button>
+        <a class="btn btn-wuxia btn-normal btn-primary close-form">Cancel</a>
+        <%= link_to 'Delete', image_playlist_path(@playlist_show), class: 'btn btn-wuxia btn-normal btn-danger', confirm: 'Are you sure?', method: :delete  %>
+      </div>
+    </fieldset>
+<% end %>
+</div>

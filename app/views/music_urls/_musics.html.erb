@@ -1,0 +1,6 @@
+<% @music_urls.each do |music_url| %>
+  <li data-id="<%= music_url.id %>" data-network="url" data-type="music">
+    <a href="#" data-src="<%= music_url.music_url %>"><b>Unknown Artist -</b> <%= music_url.title %></a>
+    <span><b>Unknown Artist -</b> <%= music_url.title %></span>
+  </li>
+<% end %>

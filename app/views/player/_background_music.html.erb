@@ -1,0 +1,36 @@
+<% if @playlist_for_setting %>
+    <script type="text/javascript">
+            window.playlistSetting = {
+            slideShow: '<%= @playlist_for_setting.slide_show %>',
+            transition: '<%= @playlist_for_setting.transition %>',
+            delay: '<%= @playlist_for_setting.delay_second %>',
+            music_type: '<%= @playlist_for_setting.background_music_type %>',
+            music_url: '<%= @playlist_for_setting.background_music_url %>'
+        };
+    </script>
+    <% if !@playlist_for_setting.background_music_type.blank? && @playlist_for_setting.background_music_type != 'Soundcloud' %>
+        <script type="text/javascript">
+            $(function () {
+                // setTimeout 0, otherwise the music_url will not set on
+                setTimeout(function(){
+                    $("#jquery_jplayer_1").jPlayer({
+                        ready: function () {
+                            $(this).jPlayer("setMedia", {
+                                m4a: "<%= @playlist_for_setting.background_music_url %>"
+                            });
+                        },
+                        swfPath: "/js",
+                        supplied: "m4a, oga",
+                        loop: true
+                    });
+                }, 0);
+            })
+        </script>
+        <div id="jquery_jplayer_1" style="display: none;"></div>
+        <!--<div id="jp_container_1"></div>-->
+    <% end %>
+<% else %>
+    <script type="text/javascript">
+        window.playlistSetting = {slideShow: "true", transition: "Slide", delay: "5", music_type: "", music_url: ""}
+    </script>
+<% end %>

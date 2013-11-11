@@ -1,0 +1,15 @@
+<% @tracks.each do |track| %>
+  <%= content_tag :li, data: { type: 'track', id: track.id, network: 'soundcloud' }, class: 'span2' do %>
+    <!-- <input id="img_<%#= track.id %>" type="checkbox" value="<%#= track.id %>"> -->
+    <%= track.title %>
+    <% # link_to "Preview", soundcloud_embed_ajax_index_path({ track_url: track.secret_uri, track_id: track.id}), remote: true, data: { track_id: track.id }, :class => "preview" %>
+    <%= link_to "Play", "#", class: 'play', data: {track_id: track.id} %>
+    <%= content_tag :div, "", :id => "track-#{track.id}", :class => "track-preview" %>
+    <div class="player">
+      <span class="play-button"></span>
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- <span class="awe-cog"></span><a href="#demoModal" data-toggle="modal" class="awe-trash"></a> -->
+  <% end %>
+<% end %>

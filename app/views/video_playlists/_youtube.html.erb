@@ -1,0 +1,7 @@
+<%= content_tag :li, data: {type: 'video', id: video.id, network: 'youtube_url'}, class: 'span2' do %>
+  <i style="background-image: url(<%= "http://img.youtube.com/vi/#{video.url}/0.jpg" %>); <%= raw('opacity: 0.4') if video.content_control %>" class="uiMediaThumbImg thumbnail video-thumb"></i>
+    <!--<iframe type="text/html" width="262" height="175" src="http://www.youtube.com/embed/<%#= video_url %>" frameborder="0" style="display: none;margin: 0;padding: 0;"></iframe>-->
+    <%= link_to "", feed_toggler_path(video['id'], :item_type => 'VideoUrl'), :class => "feed-control", :remote => true %>
+    <%= link_to "", playlist_cover_changer_path(@playlist.id, video['id'], :item_type =>  "VideoUrl"), :class => "cover_media #{cover_class(@playlist,  video)}", :id => generate_cover_id_from(video), :remote => true %>
+    <span class="awe-cog"></span>
+<% end %>

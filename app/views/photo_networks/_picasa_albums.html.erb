@@ -1,0 +1,11 @@
+<% @albums.each do |album| %>
+  <% path = album.media.thumbnails.first %>
+  <% next unless path %>
+  <%= content_tag :li, data: {type: 'album', id: album.id, network: 'picasa'}, class: 'span2' do %>
+    <input id="img_<%= album.id %>" type="checkbox" value="<%= album.id %>">
+    <!--<a class="thumbnail" href="<%#= dashboard_url(:album_id => album.id) %>"><%#= image_tag path.url, :size => "100x100"  %></a>-->
+        <i style="background-image: url(<%= path.url %>);" class="uiMediaThumbImg thumbnail"></i>
+    <!-- <span class="awe-cog"></span><a href="#demoModal" data-toggle="modal" class="awe-trash"></a> -->
+    <%= link_to "photos", picasa_url(:album_id => album.id) %>
+  <% end %>
+<% end %>

@@ -1,0 +1,11 @@
+<% video = UploadedVideo.find(tempVideo.video_id) %>
+<% original_video = video.panda_video.encodings["h264"] %>
+<%= content_tag :li, data: {type: 'video', id: video['id'], network: "uploaded_video", item_id: item_id, video_url: original_video.url}, class: 'span2 with-title' do %>
+    <input id="video_<%= video['id'] %>" type="hidden" value="<%= video['id'] %>">
+    <% if original_video.status == "success" %>
+        <div class="video-back" style="background-color: #000;">
+          <i style="background-image: url(<%= original_video.screenshots[0] %>);" class="uiMediaThumbImg thumbnail video-thumb"></i>
+          <a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+        </div>
+    <% end %>
+<% end %>

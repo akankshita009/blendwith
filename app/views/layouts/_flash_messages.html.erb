@@ -1,0 +1,5 @@
+<% flash.each do |key, value| %>
+    <div class="alert alert-error">
+      <%= value.downcase.html_safe %>
+    </div>
+<% end %>

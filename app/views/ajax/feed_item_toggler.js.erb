@@ -1,0 +1,25 @@
+var item_id = '<%= "##{@feed.itemizable_id}-#{@feed.itemizable_type}" %>';
+
+if($(item_id).length) {
+  var $element = $(item_id).closest('li').find('.thumbnail');
+} else {
+  var item_id = <%= @feed.itemizable_id %>;
+  var $element = $('*[data-id=' + item_id + ']').find('.thumbnail');
+}
+
+var private_item = <%= @feed.persisted? %>;
+if(private_item) {
+  $element.css('opacity', 0.4);
+  $.jGrowl("Photo removed from the Player.", {
+    header: '',
+    sticky: true,
+    theme: 'info'
+  });
+} else {
+  $element.css('opacity', 1);
+  $.jGrowl("Photo added to the Player.", {
+    header: '',
+    sticky: true,
+    theme: 'info'
+  });
+}

@@ -1,0 +1,14 @@
+<% data = { type: 'track_album', id: item_id, network: 'soundcloud' } %>
+<%= content_tag :li, data: data, class: 'span3 with-title' do %>
+    <input id="img_<%= track_album.id %>" type="checkbox" value="<%= track_album.id %>">
+    <a href="#" class="thumbnail">
+      <i style="background-image: url(<%= track_album.image_url %>);" class="uiMediaThumbImg"></i>
+    </a>
+    <div>
+      <% if action_name == 'show' %>
+          <a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+      <% end %>
+      <!--<span class="awe-cog"></span>-->
+      <%= link_to track_album.name, track_album_path(track_album) %>
+    </div>
+<% end %>

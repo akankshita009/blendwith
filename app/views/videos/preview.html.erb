@@ -1,0 +1,43 @@
+<% video_id = "#{@video.id}#{params[:network]}" %>
+<% video_url = @video.url %>
+<% uploaded = @video.instance_of?(UploadedVideo) ? true : false %>
+
+
+<script src="http://vjs.zencdn.net/4.1/video.js"></script>
+<%= javascript_include_tag "plugins/player_cheage/vjs.youtube.js" %>
+<style>
+  .vjs-default-skin .vjs-big-play-button {
+    display: none;
+  }
+
+  .vjs-control-bar {
+    position: absolute;
+    bottom: 0;
+  }
+  .vjs-control-bar {
+    width: 100%;
+  }
+</style>
+
+
+<div style='width: 100%; margin-bottom: 10px;'>
+  <video id='<%= video_id %>' src='<%= video_url  %>' class='video-js vjs-default-skin' controls preload width="560" height="340">
+  </video>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    var videoId = "<%= video_id %>";
+    var uploaded = <%= uploaded %>;
+
+    if(uploaded)
+      techOrder = ['html5', 'flash']
+    else
+      techOrder = ['youtube']
+
+    videojs(videoId, {techOrder: techOrder}, function() {
+      this.play();
+    });
+  });
+</script>
+

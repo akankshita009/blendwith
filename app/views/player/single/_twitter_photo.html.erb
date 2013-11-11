@@ -1,0 +1,78 @@
+<%#= javascript_include_tag 'plugins/player_cheage/video-script' %>
+<%= render 'player/background_music' %>
+
+<script type="text/javascript">
+    $(function () {
+        if ($(".vjs-plus-button").length == 0) {
+            var controls = $('.vjs-controls'), play_btn = $('.vjs-play-control');
+
+            play_btn.after('    <div class="vjs-slideshow-button vjs-menu-button vjs-control ">' +
+                    '<div><span class="vjs-control-text"></span></div>' +
+                    '</div>' +
+
+                    '<div class="vjs-next-button vjs-menu-button vjs-control ">' +
+                    '<div><span class="vjs-control-text"></span></div>' +
+                    '</div>'
+            );
+            play_btn.before('<div class="vjs-prev-button vjs-menu-button vjs-control ">' +
+                    '<div><span class="vjs-control-text"></span></div>' +
+                    '</div>'
+            );
+            controls.append(
+                    '<div class="vjs-plus-button vjs-menu-button vjs-control ">' +
+                            '<div><span class="vjs-control-text"></span></div>' +
+                            '</div>'
+            );
+        }
+
+        setTimeout(window.photo_size_setting, 0);
+    });
+</script>
+
+<div id="gallery" playlist-id="<%= params['playlist_id'] %>">
+  <div>
+    <% if @image_url.respond_to? :each %>
+        <% @image_url.each do |url| %>
+            <div class="photo">
+              <div class="desc">
+              </div>
+              <img src="<%= url %>">
+            </div>
+        <% end %>
+    <% else %>
+        <div class="photo">
+          <div class="desc">
+          </div>
+          <img src="<%= @image_url %>">
+        </div>
+    <% end %>
+  </div>
+  <style>
+      .vjs-captions-button,
+      .vjs-play-control,
+      .vjs-mute-control,
+      .vjs-fullscreen-control,
+      .vjs-volume-control,
+      .video-js .vjs-tech,
+      .vjs-poster,
+      .vjs-default-skin div.vjs-seek-handle,
+      .vjs-time-controls,
+      .vjs-time-divider,
+      #block .vjs-big-play-button, .player-master {
+          display: none;
+      }
+
+      .vjs-default-skin .vjs-controls {
+          opacity: 1 !important;
+          visibility: visible !important;
+      }
+
+      .vjs-progress-control.vjs-control {
+        display: none;
+      }
+
+      #block .vjs-slideshow-button, #block .vjs-prev-button, #block .vjs-next-button {
+          display: block;
+      }
+  </style>
+</div>

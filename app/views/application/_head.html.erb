@@ -1,0 +1,34 @@
+<meta charset="utf-8">
+<title>Blendwith.com Front End Design Demonstration</title>
+<meta name="description" content="">
+<meta name="author" content="Walking Pixels | www.walkingpixels.com">
+<meta name="robots" content="index, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<%= favicon_link_tag %>
+<!-- CSS styles -->
+<%= stylesheet_link_tag :application, debug: false %>
+<%= stylesheet_link_tag 'jquery-tourbus', debug: false %>
+<% unless controller_name.eql?("users") and action_name.eql?("show")%>
+  <%# unless (controller_name.eql?("photo_urls") or  controller_name.eql?("uploaded_audios"))%>
+    <%= stylesheet_link_tag '/stylesheets/player' %>
+  <%# end %>
+  <%= stylesheet_link_tag '/stylesheets/wuxia-orange' %>
+<% end %>
+
+
+<!-- JS Libs -->
+<%= javascript_include_tag :application, debug: false %>
+<%= javascript_include_tag :playlists, debug: false %>
+<%= javascript_include_tag 'libs/jquery.easing.1.3', debug: false %>
+<%= javascript_include_tag 'libs/modernizr', debug: false %>
+<%= javascript_include_tag 'libs/selectivizr', debug: false %>
+<%= javascript_include_tag 'isotope', debug: false %>
+<%= javascript_include_tag 'common', debug: false %>
+<%= javascript_include_tag 'jquery-tourbus.min', debug: false %>
+<% unless controller_name.eql?("users") and action_name.eql?("show")%>
+  <%= javascript_include_tag '/javascripts/audio'%>
+<% end %>
+<%= javascript_include_tag controller_name, debug: true %>
+<script src="//cdn.pandastream.com/u/2.0/panda-uploader.min.js"></script>

@@ -1,0 +1,217 @@
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" media="screen" />
+<!-- Main data container -->
+<div>
+
+  <div class="row-fluid">
+    <%= render :partial => 'left_nav' %>
+    <article class="span10 special">
+      <div class="content">
+        <div class="row-fluid">
+          <div class="center">
+            <h2 class="orange">Add My Music</h2>
+            <!-- Secondary navigation -->
+          </div>
+          <div class="span10 center">
+            <div class="nav-secondary">
+              <%= render 'music_networks/social_nav' %>
+            </div>
+            <!-- /Secondary navigation -->
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="page-header custom">
+            <h3>
+              <% if @album %>
+                <%= @album.name %>
+              <% end %>
+
+              <% if @playlist_show %>
+                <span id="name-playlist-detail"><%= @playlist_show.name %></span>
+                <%= link_to @playlist_show.name.to_s, "#", data: {id: @playlist_show.id}, style: "display: none" %>
+              <% end %>
+
+              <span class="awe-cog <%= "playlist-setting" if @playlist_show %>"></span><br /><small>Select all | Select none</small></h3>
+
+            <% if @playlist_show.social_network.in? %w(Soundcloud) %>
+              <%= render :partial => 'shared/set_feed_new', :locals => {set_feed: @playlist_show.set_feed, playlist_id: @playlist_show.id} %>
+            <% end %>
+
+          </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <%= render 'shared/audiojs_player' %>
+        <br />
+        <br />
+        <br />
+        <div class="row-fluid">
+          <div class="page-container">
+            <form class="form-gallery">
+              <ul id="thumbnails" class="thumbnails">    
+                <% @tracks_soundclouds.each do |track| %>
+                  <%= content_tag :li, data: { type: 'music', id: track.id, network: 'soundcloud', title: track.caption, tags: track.tags.map(&:name).join(","), url: update_track_music_playlist_path(@playlist_show.id, :track_id => track.id) }, class: 'span2' do %>
+                    <input id="img_<%= track.id %>" type="checkbox" value="<%= track.id %>">
+                    <a title="<%= track.caption %>" class="thumbnail"  <%= raw('style="opacity: 0.4"') if track.content_control %>>
+                      <i style="background-image: url(<%= track.image_url %>);" class="uiMediaThumbImg"></i>
+                    </a>
+                    <%= link_to "", feed_toggler_path(track.id, :item_type => 'Track'), :class => "feed-control", :remote => true %>
+                    <%= link_to "", playlist_cover_changer_path(@playlist_show.id, track.id, :item_type => "Track"), :class => "cover_media #{cover_class(@playlist_show,  track)}", :id => generate_cover_id_from(track), :remote => true %>
+
+                    <a href="#demoModal" data-toggle="modal" class="awe-trash" style="right: 0; "></a>
+                    <span class="awe-cog"></span>
+                  <% end %>
+                <% end %>
+              </ul>
+            </form>
+              
+              
+              
+              
+              
+            <form class="form-gallery">
+              <ol id="thumbnails2">
+                  
+                  
+                <% @tracks_soundclouds.each do |item| %>
+                  <% if item %>
+                    <li data-id="<%= item[:track_id] %>" data-network="soundcloud" data-type="music">
+                      <a href="#" data-src="<%= item[:stream] %>"><b><%= item[:artist] %> -</b> <%= item[:title] %></a>
+                      <span><b><%= item[:artist] %> -</b> <%= item[:title] %></span>
+                      <img src="<%= item[:photo] %>" width="50px" height="50px">
+                    </li>
+                  <% end %>
+                <% end %>
+<%# @playlists.each do |playlist| %>
+<%# items = playlist.items %>
+<%# items.each do |item| %>
+<%# if item %>
+<%# if item.itemizable.network == 'soundcloud' %>
+<%# if item.itemizable.class == TrackAlbum %>
+<%#= render :partial => 'soundcloud_albums', :locals => {:track_album => item.itemizable, :item_id => item.id} %>
+<%# elsif item.itemizable.class == Track %>
+<%#= render :partial => 'soundcloud_tracks', :locals => {:track => item.itemizable, :item_id => item.id} %>
+<%# end %>
+<%# elsif item.itemizable.network == 'url' %>
+<%#= render :partial => 'url_tracks', :locals => {:track => item.itemizable, :item_id => item.id} %>
+<%# elsif item.itemizable.network == 'upload' %>
+<%#= render :partial => 'url_tracks', :locals => {:track => item.itemizable, :item_id => item.id} %>
+<%# end %>
+<%# end %>
+<%# end %>
+<%# end %>
+              </ol>
+            </form>
+          </div>
+        </div>
+
+      </div>
+      <div class="form">
+        <a href="<%= image_path("sample_content/sample-image-900x500.png") %>" class="form-image">
+          <img class="element" src="<%= image_path("sample_content/sample-image-250x150.png") %>" alt="" />
+          <span class="awe-zoom-in"></span>
+        </a>
+        <%= form_tag "", :method => :put do %>
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="input">Caption</label>
+              <div class="controls">
+                <input class="input-xlarge" type="text" name="caption" id="caption" placeholder="Caption here">
+                <input type="hidden" value="" id="object_id" name="object_id" /> 
+                <!-- <p class="help-block">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>-->
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="input">Tags</label>
+              <div class="controls">
+                <input id="tags" class="input-xlarge" type="text"  name="tags" placeholder="Caption here">
+                <p class="help-block">comma separated tags</p>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-wuxia btn-normal btn-primary" type="submit">Save changes</button>
+              <a class="btn btn-wuxia btn-normal btn-primary close-form">Cancel</a>
+            </div>
+          </fieldset>
+        <% end %>
+      </div>
+    </article>
+  </div>
+</div>
+<%#= javascript_include_tag 'plugins/audio' %>
+<script>
+  $(function() {
+    var a = audiojs.createAll({
+      trackEnded: function() {
+        var next = $('ul#thumbnails li.playing').next();
+        if (!next.length)
+          next = $('ul#thumbnails li').first();
+        next.addClass('playing').siblings().removeClass('playing');
+        audio.load($('a', next).attr('data-src'));
+        audio.play();
+      }
+    });
+    // Load in the first track
+    var audio = a[0];
+    first = $('ul#thumbnails a').attr('data-src');
+    $('ul#thumbnails li').first().addClass('playing');
+    audio.load(first);
+
+    // Load in a track on click
+    $('ul#thumbnails li').click(function(e) {
+      e.preventDefault();
+      $(this).addClass('playing').siblings().removeClass('playing');
+      audio.load($('a', this).attr('data-src'));
+      audio.play();
+    });
+
+    $('.prev-pl').click(function(e) {
+      var prev = $('li.playing').prev();
+      if (!prev.length)
+        prev = $('ul#thumbnails li').last();
+      prev.click();
+    });
+    $('.next-pl').click(function(e) {
+      var next = $('li.playing').next();
+      if (!next.length)
+        next = $('ul#thumbnails li').first();
+      next.click();
+    });
+
+    $('#volume').slider({
+      value: 100,
+      min: 0,
+      max: 100,
+      step: 5,
+      change: function(event, ui) {
+        audio.setVolume(ui.value / 100);
+        event.preventDefault();
+        return false;
+      }
+    });
+
+    /*ids = ['vol-0', 'vol-10', 'vol-40', 'vol-70', 'vol-100'];
+     for (var i = 0, ii = ids.length; i < ii; i++) {
+     var elem = document.getElementById(ids[i]),
+     volume = ids[i].split('-')[1];
+     elem.setAttribute('data-volume', volume / 100)
+     elem.onclick = function(e) {
+     audio.setVolume(this.getAttribute('data-volume'));
+     e.preventDefault();
+     return false;
+     }
+     }*/
+
+  });
+</script>
+<%#= stylesheet_link_tag 'wuxia-orange' %>
+<script type="text/javascript">
+  $(function() {
+    SC.initialize({
+      client_id: '<%= CONFIG[:soundcloud][:client_id] %>',
+      access_token: '<%= current_user.soundcloud.try(:access_token) %>'
+    });
+  });
+</script>
+<%= javascript_include_tag 'soundcloud' %>

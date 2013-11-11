@@ -1,0 +1,32 @@
+<% reply = defined?(reply) ? reply : false %>
+<% if comment.owner %>
+    <li id="comment_<%= comment.id %>">
+      <i style="background: url(<%= image_by_user comment.owner, 40, :thumb %>);"></i>
+      <a href="#" class="name">
+        <h5><%= comment.owner.first_name %> <%= comment.owner.last_name %></h5>
+        <span><%= time_ago_in_words(comment.created_at) %></span>
+      </a>
+      <p>
+        <%= simple_format(comment.body) %>
+      </p>
+      <%= link_to t('opinio.actions.reply'), '#', :class => "comment-reply" %>
+      <%#= link_to t('opinio.actions.delete'), comment_path(comment), :method => :delete, :remote => true %>
+      <%= form_for Comment.new, :remote => false, :html => {:id => "form_comment_#{ comment.id }", :class => "reply-form", :style => "display: none;margin-top:10px;"} do |f| %>
+          <p>
+            <%= f.text_area :body %>
+          </p>
+          <%= hidden_field_tag :user_id, @user.id %>
+          <%= hidden_field_tag :commentable_id, comment.id %>
+          <%= hidden_field_tag :commentable_type, 'Comment' %>
+          <%#= f.submit t('opinio.actions.add'), {:class => "btn orange-btn"} %>
+          <button class="add-comment-btn btn orange-btn"><%= t('opinio.actions.add') %></button>
+      <% end %>
+      <%# this enables only 1 level of replies %>
+      <%# if Opinio.accept_replies && !reply %>
+        <!--<span><%#= link_to t('opinio.actions.reply'), reply_comment_path(comment), :remote => true %></span>-->
+        <ul id="comment_<%= comment.id %>_replies" class="replies">
+          <%= render :partial => "opinio/comments/comment", :collection => comment.comments, :locals => {:reply => true} %>
+        </ul>
+      <%# end %>
+    </li>
+<% end %>

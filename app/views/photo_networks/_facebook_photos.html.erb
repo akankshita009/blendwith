@@ -1,0 +1,8 @@
+<% @photos.each do |photo| %>
+  <%= content_tag :li, data: { type: 'photo', id: photo['id'], network: 'facebook' }, class: 'span2' do %>
+    <input id="img_<%= photo['id'] %>" type="checkbox" value="<%= photo['id'] %>">
+    <!--<a class="thumbnail" href="<%#= dashboard_url(:photo_id => photo['id']) %>"><%#= image_tag photo['source'], :size => "100x100"  %></a>-->
+    <i style="background-image: url(<%= photo['source'] %>);" class="uiMediaThumbImg thumbnail"></i>
+    <%#= link_to photo['name'], '#' %>
+  <% end %>
+<% end %>

@@ -1,0 +1,10 @@
+<%= content_tag :li, data: {type: 'playlist_album', id: album.id,  name: album.name, tags: album.tags.map(&:name).join(","), url: album_path(album)}, class: 'span2' do %>
+  <input id="img_<%= album.id %>" type="checkbox" value="<%= album.id %>">
+  <a class="thumbnail" href="#" <%= raw('style="opacity: 0.4"') if photo.content_control %>>
+    <i style="background-image: url(<%= album.image_url %>);" class="uiMediaThumbImg"></i>
+  </a>
+  <%= link_to "", feed_toggler_path(album.id, :item_type => 'Album'), :class => "feed-control", :remote => true %>
+  <span class="awe-cog"></span><a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+
+  <%= link_to "photos", album_path(album) %>
+<% end %>

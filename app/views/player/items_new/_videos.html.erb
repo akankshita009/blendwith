@@ -1,0 +1,92 @@
+<% if params[:playlist_id].in? %w(Recent_Videos All_Videos) %>
+    <% @playlists.each do |playlist| %>
+        <%# there is only youtube playlist here %>
+        <% playlist.items.each do |item| %>
+            <% video = item.itemizable %>
+            <% if video.class == Video %>
+                <%# playlist is Youtube or URL_Videos, will have no affect %>
+                <a class="thumb" item-id="<%= video.video_id %>" playlist-id="Youtube">
+                  <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+
+                  <i style="background-image: url(<%= "http://img.youtube.com/vi/#{video.video_id}/0.jpg" %>);" class="uiMediaThumbImg-player"></i>
+                  <h3><%= video.title %></h3>
+                </a>
+            <% else video.class == VideoAlbum %>
+                <% video.videos.each do |real_video| %>
+                    <a class="thumb" item-id="<%= real_video.video_id %>" playlist-id="Youtube">
+                      <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+
+                      <% image = real_video.image_url %>
+                      <% image = "http://img.youtube.com/vi/#{real_video.video_id}/0.jpg" unless image %>
+
+                      <i style="background-image: url(<%= image %>);" class="uiMediaThumbImg-player"></i>
+                      <h3><%= real_video.title %></h3>
+                    </a>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+<% end %>
+
+<% if params[:playlist_id].in? %w(Recent_Videos All_Videos Uploaded_Videos) %>
+    <% @uploaded_videos.each do |uploaded_video| %>
+        <a class="thumb" item-id="<%= uploaded_video.ori_video_url %>" playlist-id="Uploaded_Videos">
+          <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+          <% if uploaded_video.encode_success? %>
+              <i style="background-image: url(<%= uploaded_video.ori_video_img %>);" class="uiMediaThumbImg-player"></i>
+          <% end %>
+
+          <h3><%= uploaded_video.title %></h3>
+        </a>
+    <% end %>
+<% end %>
+
+<% if params[:playlist_id].in? %w(Recent_Videos All_Videos URL_Videos) %>
+    <% @video_urls.each do |video_id| %>
+        <a class="thumb" item-id="<%= video_id %>" playlist-id="URL_Videos">
+          <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+          <i style="background-image: url(<%= "http://img.youtube.com/vi/#{video_id}/0.jpg" %>);" class="uiMediaThumbImg-player"></i>
+
+          <h3>&nbsp;</h3>
+        </a>
+    <% end %>
+<% end %>
+
+<%# for user created playlist %>
+<% unless params[:playlist_id].in? %w(Recent_Videos All_Videos Uploaded_Videos URL_Videos) %>
+    <% @items.each do |item| %>
+        <% video = item.itemizable %>
+        <% if video.network == 'uploaded_video' %>
+            <% uploaded_video = UploadedVideo.find video.video_id %>
+            <a class="thumb" item-id="<%= uploaded_video.ori_video_url %>" playlist-id="Uploaded_Videos">
+              <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+              <% if uploaded_video.encode_success? %>
+                  <i style="background-image: url(<%= uploaded_video.ori_video_img %>);" class="uiMediaThumbImg-player"></i>
+              <% end %>
+              <h3><%= video.title %></h3>
+            </a>
+        <% else %>
+            <% if video.class == Video %>
+                <%# playlist is Youtube or URL_Videos, will have no affect %>
+                <a class="thumb" item-id="<%= video.video_id %>" playlist-id="Youtube">
+                  <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+
+                  <i style="background-image: url(<%= "http://img.youtube.com/vi/#{video.video_id}/0.jpg" %>);" class="uiMediaThumbImg-player"></i>
+                  <h3><%= video.title %></h3>
+                </a>
+            <% else video.class == VideoAlbum %>
+                <% video.videos.each do |real_video| %>
+                    <a class="thumb" item-id="<%= real_video.video_id %>" playlist-id="Youtube">
+                      <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+
+                      <% image = real_video.image_url %>
+                      <% image = "http://img.youtube.com/vi/#{real_video.video_id}/0.jpg" unless image %>
+
+                      <i style="background-image: url(<%= image %>);" class="uiMediaThumbImg-player"></i>
+                      <h3><%= real_video.title %></h3>
+                    </a>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+<% end %>

@@ -1,0 +1,11 @@
+<%= content_tag :li, data: {type: 'video_album', id: album.id, network: 'youtube', item_id: item_id}, class: 'span3' do %>
+  <a href="#" class="thumbnail"><img src="<%= album.image_url %>" /></a>
+    <!--<span class="awe-cog"></span><a href="#demoModal" data-toggle="modal" class="awe-trash"></a>-->
+    <div>
+      <% if action_name == 'show' %>
+          <a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+          <span class="awe-cog"></span>
+      <% end %>
+      <%= link_to album.name, video_album_path(album) %>
+    </div>
+<% end %>

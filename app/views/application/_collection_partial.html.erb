@@ -1,0 +1,40 @@
+<% object = item.albumize %>
+
+<% object_type = object.class.to_s.underscore %>
+
+<% caption = object.respond_to?(:caption) ? object.caption : object.title %>
+
+
+<% url = method("#{object_type}_path").call(object) %>
+
+<% data = { type: object_type, id: object.id, title: caption, tags: object.tags.map(&:name).join(","), url: url, item_id: item.id, network: network }  %>
+
+
+<% if object.instance_of? MusicUrl %>
+  <% data.merge!(type: 'music', network: 'url') %>
+<% elsif object.instance_of? UploadedAudio %>
+  <% data.merge!(type: 'music', network: 'upload') %>
+<% else %>
+  <% data.merge!(type: 'track', network: 'soundcloud') %>
+<% end %>
+
+
+<%= content_tag :li, data: data, class: 'span3' do %>
+  <input id="img_<%= object.id %>" type="checkbox" value="<%= object.id %>">
+  <a data-src="<%= object.music_url %>" title="<%= caption %>" href="#" class="thumbnail" <%= raw('style="opacity: 0.4"') if object.content_control %>>
+    <i style="background-image: url(<%= object.image_url %>);" class="uiMediaThumbImg"></i>
+  </a>
+  <div>
+
+    <%= link_to "", feed_toggler_path(object.id, :item_type => "#{object.class}"), :class => "feed-control", :remote => true %>
+    <%= link_to "", playlist_cover_changer_path(playlist.id, item.id, :original_playlist_id => @playlist.id), :class => "cover_media #{cover_class(playlist,  object)}", :id => generate_cover_id_from(object), :remote => true %>
+
+    <% if object.instance_of?  Collection %>
+      <%= link_to object.title.truncate(20), url %>
+    <% end %>
+
+      <a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+      <span class="awe-cog"></span>
+
+  </div>
+<% end %>

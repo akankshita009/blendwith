@@ -1,0 +1,17 @@
+
+<% @friend_feeds.each do |feed| %>
+  <% next if feed.item.try { |item| item.itemizable.content_control } %>
+    <div class="feed <%= feed.network %>" data-id='<%= feed.user_id %>' feed-id='<%= feed.id %>' media-type='<%= feed.media_type %>'>
+      <h3 class="title"><%= feed.title.blank? ? feed.media_type.capitalize : feed.title %>&nbsp;</h3>
+      <div class="feed-content">
+        <!--<img src="/assets/feed-demo/1.png"/>-->
+        <% if feed.image_url %>
+            <img src="<%= feed.image_url %>"/>
+        <% end %>
+      </div>
+      <div class="feed-bottom">
+        <span class="author"><strong><%= feed.first_name %>&nbsp;<%= feed.last_name %></strong> posted a new <%= feed.media_type %>.</span>
+        <span class="date"><%= feed.created_at.strftime("%m/%d/%y") %></span>
+      </div>
+    </div>
+<% end %>

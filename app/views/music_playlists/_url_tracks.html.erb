@@ -1,0 +1,16 @@
+<% data = { type: 'track', id: item_id, network: 'soundcloud', title: track.title, tags: track.tags.map(&:name).join(","), url: track_path(track) } %>
+<%= content_tag :li, data: data, class: 'span3 with-title audio-li' do %>
+    <%= track.title %>
+
+    <%#= link_to "Play", "#", class: 'play-audio', data: {track_id: track.audio_url} %>
+    <%#= content_tag :div, "", :id => "track-#{track.track_object[:id]}", :class => "track-preview" %>
+    <div class="player">
+      <span class="play-button"></span>
+      <span class="progress-bar"></span>
+    </div>
+
+    <% if action_name == 'show' %>
+        <!--<span class="awe-cog"></span>-->
+        <a href="#demoModal" data-toggle="modal" class="awe-trash"></a>
+    <% end %>
+<% end %>

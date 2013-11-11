@@ -1,0 +1,12 @@
+<% @photos.each do |tweet_id, media_ary| %>
+  <% media_ary.each do |media| %>
+    <% if media[:type] == 'photo' %>
+      <%= content_tag :li, data: { type: 'photo', id: "#{tweet_id}_#{media[:id]}", network: 'twitter' }, class: 'span2' do %>
+        <input id="img_<%= tweet_id %>" type="checkbox" value="<%= tweet_id %>">
+        <!--<a class="thumbnail" href="<%#= dashboard_url(:photo_id => tweet_id) %>"><%#= image_tag media[:media_url], :size => "100x100"  %></a>-->
+        <i style="background-image: url(<%= media[:media_url] %>);" class="uiMediaThumbImg thumbnail"></i>
+        <!-- <span class="awe-cog"></span><a href="#demoModal" data-toggle="modal" class="awe-trash"></a> -->
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

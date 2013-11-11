@@ -1,0 +1,41 @@
+<script type="text/javascript">
+  $(function(){
+      $.get('/conversations/inbox', {}, null, 'script');
+      $.get('/conversations/sent_box', {}, null, 'script');
+      $.get('/conversations/trash_box', {}, null, 'script');
+  })
+</script>
+
+<div style="width: 100%;background: url(/assets/grid.png);">
+  <div style="width: 1200px;padding: 30px 0 0 80px;margin: 0 auto;">
+    <ul id="friend_ul" class="nav nav-tabs" style="margin: 0">
+      <li class="<%= (@which_box == 'inbox' ? 'active' : '') %>">
+        <a href="#" id="all_btn">Inbox</a>
+        <!--&nbsp;<span class="badge badge-important"><%#= 0 %></span>-->
+      </li>
+      <li class="<%= @which_box == 'sent_box' ? 'active' : '' %>"><a href="#" id="pending_btn">Sentbox</a></li>
+      <li class="<%= @which_box == 'trash_box' ? 'active' : '' %>"><a href="#" id="request_btn">Trash</a></li>
+    </ul>
+  </div>
+</div>
+
+<div style="width: 100%;background: #F6F6F6;">
+  <div style="width: 1200px;padding: 0 0 0 80px;margin: 0 auto;">
+    <div id="search_result" class="message-panel" style="display: <%= @which_box == 'inbox' ? 'block' : 'none' %>">
+      <ul class="message-list"></ul>
+      <div class="message-content"></div>
+    </div>
+    <div id="pending_friends" class="message-panel" style="display: <%= @which_box == 'sent_box' ? 'block' : 'none' %>">
+      <ul class="message-list"></ul>
+      <div class="message-content">
+        <% if @which_box == 'sent_box' %>
+            <%= render 'show' if @conversation %>
+        <% end %>
+      </div>
+    </div>
+    <div id="request_friends" class="message-panel" style="display: <%= @which_box == 'trash_box' ? 'block' : 'none' %>">
+      <ul class="message-list"></ul>
+      <div class="message-content"></div>
+    </div>
+  </div>
+</div>

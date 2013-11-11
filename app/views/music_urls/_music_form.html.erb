@@ -1,0 +1,105 @@
+<div class="row-fluid">
+  <div id="flashing" class="page-header">
+    <%= render :partial => 'layouts/flash_messages', :locals => {:flash => flash} %>
+  </div>
+  <!--width: 200px;margin-top: 20px;-->
+  <div class="span4 offset1" style="margin: 10px 30px;width: 100%;">
+    <input type="text" placeholder="Please enter music URL..." id="music_url_url" style="float: left"/>
+    <a href="#" class="btn" onclick="createMusicUrl();return false;" style="float: left">+Add</a>
+    <!--<a href="#" class="btn" onclick="delete_music();return false;" style="float: left">Delete</a>-->
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Please choose one</h3>
+  </div>
+  <div class="modal-body">
+    <p>
+    <h4>There are more than one audios.</h4>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" onclick="createOne();">Add The Last</button>
+    <button class="btn btn-primary" onclick="createAll();">Add All</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        window.url = "";
+    });
+
+//    function delete_music() {
+//        var inputs = $("#thumbnails input:checked");
+//        if (inputs.length != 1) {
+//            alert("please select the audio you want to delete");
+//            return;
+//        }
+//        var r = confirm("delete " + inputs.parent().text().trim() + "?");
+//        if (r) {
+//            $.ajax({
+//                type: "DELETE",
+//                url: "/music_urls/" + inputs.attr("id").replace("img_", "")
+//            }).done(function (msg) {
+//                        window.location = "/music_urls/new";
+//                    });
+//        }
+//    }
+
+    function resolveResult(data) {
+        $("#mask-div").hide();
+        if (data.result == "success") {
+            window.location = "/music_urls/new";
+        } else {
+            alert(data.message);
+        }
+    }
+
+    function createAll() {
+        $("div.modal-backdrop").hide();
+        $("#myModal").hide();
+        $("#mask-div").show();
+        $.post("/music_urls/create_all", {music_url: window.url}, function (data) {
+            resolveResult(data);
+        })
+    }
+
+    function createOne() {
+        $("div.modal-backdrop").hide();
+        $("#myModal").hide();
+        $("#mask-div").show();
+        $.post("/music_urls", {music_url: window.url}, function (data) {
+            resolveResult(data);
+        });
+    }
+
+    function createMusicUrl() {
+        url = $("#music_url_url").val();
+        if (url == "") {
+            alert("You have to give music url to add.");
+            return;
+        }
+        var resolveRssFeed = function (data) {
+            if (data.responseData.feed && data.responseData.feed.entries) {
+                if (data.responseData.feed.entries.length == 0) {
+                    alert("no videos found");
+                } else if (data.responseData.feed.entries.length == 1) {
+                    createOne();
+                } else {
+                    $('#myModal').modal();
+                }
+            }
+        }
+        $.ajax({
+            url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=100000&callback=?&q=' + encodeURIComponent(url),
+            dataType: 'json',
+            success: function (data) {
+                resolveRssFeed(data);
+            }
+        });
+    }
+</script>

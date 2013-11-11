@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="span4">
+    <%= form_for @photo_url, :html => { :style => "background: none;"}  do |f| %>
+      <%= f.text_field :image_url, placeholder: "Please enter image URL..." %>
+      <%= f.submit "+Add", class: "btn", :onclick => "return validateurl();", :style => "margin-bottom: 9px;" %>
+    <% end %>
+  </div>
+</div>
+
+<form class="form-gallery">
+  <ul id="thumbnails" class="thumbnails">
+      <%= render partial: "photo_partial", :collection => @image_items, as: :item, locals: { playlist: @playlist, network: 'plusurl'}  %>
+  </ul>
+</form>
+
+<script type="text/javascript">
+  function validateurl() {
+    if ($("#photo_url_image_url").val() == "")
+    {
+      alert("You have to give image url to add.");
+      return false;
+    }
+    return true;
+  }
+
+</script>

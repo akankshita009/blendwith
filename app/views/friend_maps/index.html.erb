@@ -1,0 +1,42 @@
+<script type="text/javascript">
+    $.get("/friend_maps/pending_friends", {}, null, 'script');
+    $.get("/friend_maps/request_friends", {}, null, 'script');
+    $.get("/friend_maps/friends", {}, null, 'script');
+</script>
+
+<div style="width: 100%;margin-top: 8px;text-align: center;padding: 20px;background: #F6F6F6;">
+  <span style="font-size: 13px;margin-right: 20px;width: auto;">Search for <b>Friends</b></span>
+  <input type="text" style="margin-bottom: 0;margin-right: 20px;width: 400px;"/>
+  <a href="#" class="btn orange-btn" id="search_btn">Search</a>
+</div>
+<!--<div style="margin-top: 40px;width: 100%;">-->
+
+<div style="width: 100%;background: url(/assets/grid.png);">
+  <div style="width: 1200px;padding: 30px 0 0 80px;margin: 0 auto;">
+    <ul id="friend_ul" class="nav nav-tabs" style="margin: 0">
+      <li class="<%= 'active' unless params[:request_friends] %>">
+        <a href="#" id="all_btn">All Results</a>
+      </li>
+      <li><a href="#" id="pending_btn">Pending Friendships&nbsp;<span class="badge badge-important"><%= @pending_count %></span></a></li>
+      <li class="<%= 'active' if params[:request_friends] %>"><a href="#" id="request_btn">Friend Requests&nbsp;<span class="badge badge-important"><%= @request_count %></span></a></li>
+      <li><a href="#" id="friend_btn">All Friends&nbsp;<span class="badge badge-important"><%= @friend_count %></span></a></li>
+    </ul>
+  </div>
+</div>
+
+<div style="width: 100%;background: #F6F6F6;">
+  <div style="width: 1200px;padding: 0 0 0 80px;margin: 0 auto;">
+    <div id="search_result" class="friend-panel" style="<%= 'display: none;' if params[:request_friends] %>">
+      <%= render 'search_result' %>
+    </div>
+    <div id="pending_friends" class="friend-panel">
+      <%#= render 'pending' %>
+    </div>
+    <div id="request_friends" class="friend-panel" style="<%= 'display: block;' if params[:request_friends] %>">
+      <%#= render 'requests' %>
+    </div>
+    <div id="all_friends" class="friend-panel">
+      <%#= render 'friends' %>
+    </div>
+  </div>
+</div>

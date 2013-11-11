@@ -1,0 +1,26 @@
+<h4>Galleries > <%= params['playlist_title'] %></h4>
+
+<% if (params['playlist_type'] == 'audio') %>
+    <div class="album-image"><img src="/assets/thumb.png" alt=""/></div>
+    <div class="thumbs" user-id="<%= params['user_id'] %>" playlist-type="<%= params['playlist_type'] %>" playlist-id="<%= params['playlist_id'] %>">
+      <div>
+        <%= render 'player/items_new/audios' %>
+      </div>
+    </div>
+<% elsif (params['playlist_type'] == 'photo') %>
+    <%#= render 'player/background_music' %>
+    <div class="thumbs" user-id="<%= params['user_id'] %>" playlist-type="<%= params['playlist_type'] %>" playlist-id="<%= params['playlist_id'] %>">
+      <div>
+        <%= render 'player/items_new/photos' %>
+      </div>
+    </div>
+<% elsif (params['playlist_type'] == 'video') %>
+    <% if params[:playlist_id].in? %w(Recent_Videos All_Videos Youtube) %>
+        <input id="youtube_pageToken" value="<%= @pageToken %>" type="hidden"/>
+    <% end %>
+    <div class="thumbs" user-id="<%= params['user_id'] %>" playlist-type="<%= params['playlist_type'] %>" playlist-id="<%= params['playlist_id'] %>">
+      <div>
+        <%= render 'player/items_new/videos' %>
+      </div>
+    </div>
+<% end %>

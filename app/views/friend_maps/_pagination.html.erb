@@ -1,0 +1,7 @@
+<%#%>
+<div class="digg_pagination" style="text-align: right;">
+  <% if @search_users %>
+      <%= will_paginate @search_users, :inner_window => 1, :outer_window => 0, :class => "inline-block" %>
+      <!--<span class="page_gray"><%#= page_entries_info @search_users %></span>-->
+  <% end %>
+</div>

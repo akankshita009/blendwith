@@ -1,0 +1,9 @@
+<% @video_ids.each do |video_id| %>
+    <%= content_tag :li, data: {type: 'video', id: video_id, network: 'youtube'}, class: 'span2', style: 'width: 285px;height: 203px;' do %>
+        <!--<input id="img_<%#= video_id %>" type="checkbox" value="<%#= video_id %>">-->
+        <!--<img src="http://img.youtube.com/vi/<%#= video_id %>/default.jpg" class="video-thumb" style="width: 285px;height: 185px;"/>-->
+        <i style="background-image: url(<%= "http://img.youtube.com/vi/#{video_id}/0.jpg" %>);" class="uiMediaThumbImg thumbnail video-thumb"></i>
+        <iframe type="text/html" width="285" height="175" src="http://www.youtube.com/embed/<%= video_id %>?controls=1&autohide=1&color=white&theme=light" frameborder="0" style="display: none;margin: 0;padding: 0;"></iframe>
+        <!--<span class="awe-cog"></span><a href="#demoModal" data-toggle="modal" class="awe-trash"></a>-->
+    <% end %>
+<% end %>

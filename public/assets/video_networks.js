@@ -1,0 +1,1 @@
+(function(){$(function(){return $(".video-thumb").live("click",function(){return $(this).hide(),$(this).next().show()})})}).call(this);

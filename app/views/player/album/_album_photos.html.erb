@@ -1,0 +1,14 @@
+<div class="thumbs" user-id='<%= @user.id %>' playlist-id='album' playlist-type='photo'>
+  <div>
+    <% @photos.each do |photo| %>
+        <a class="thumb photo" photo-id="<%= photo.id %>" item-id="<%= @item.id %>">
+          <img class="overlay" src="/assets/v-overlay.png" alt=""/>
+          <i style="background-image: url(<%= photo.image_url %>);" class="uiMediaThumbImg-player"></i>
+
+          <h3>
+            <%# photo.caption %>
+          </h3>
+        </a>
+    <% end %>
+  </div>
+</div>

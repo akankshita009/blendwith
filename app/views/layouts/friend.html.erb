@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <%= render :partial => 'application/head' %>
+  </head>
+  <body >
+    <input id="controller-name-box" type="hidden" value="<%= controller_name %>" />
+
+    <div id="playlist-setting-panel" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>Rename or Delete Playlist</h3>
+        <input type="hidden" /><!-- store id -->
+      </div>
+      <div class="modal-body">
+        <p>
+          <input type="text" />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger">Delete</button>
+        <button class="btn btn-primary">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
+    <!-- Main navigation bar -->
+    <!-- There are 3 navigation styles available.-->
+    <!--    default - fixed on top without any special effect (no extra markup) -->
+    <!--    affix - Bootstrap affix plugin to track page scrolling, you can hide, move or change alpha when scrolled down (navigation.js) -->
+    <!--    arrowed - add class .active-arrow to ul.nav to add arrow for active element -->
+    <%= render :partial => 'application/header' %>
+    <!-- /Main navigation bar -->
+
+    <!-- Main content -->
+    <div class="container-fluid" role="main" style="padding: 0; margin-top: 50px;">
+      <%= yield %>
+    </div>
+
+    <div class="modal delete-media fade hide" id="demoModal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Deleting media</h3>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this media?</p>
+      </div>
+      <%= form_tag "", :method => :delete do %>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-wuxia" data-dismiss="modal">Cancel</a>
+          <a class="btn btn-wuxia btn-primary" type="submit">Delete</a>
+        </div>
+      <% end %>
+    </div>
+
+    <div id="playlist-form" style="display: none;" />
+    <%= form_for playlist_object do |f| %>
+      <%= f.text_field :name %>
+    <% end %>
+  </div>
+
+
+  <div class="drag-cont"></div>
+  <div style="display: none" class="loaded-images"></div>
+  <div id="mask-div">
+    <div class="progress progress-striped active">
+      <div class="bar"></div>
+    </div>
+  </div>
+
+  <% if session[:tour] %>
+    <ol class='tourbus-legs' id='tour-blend'>
+      <% if controller_name.eql?("users") and action_name.eql?("show") %>
+        <li data-el='#video-header' data-orientation='top' data-width='50%'>
+          <a class="close pull-right tourbus-stop" href="#">&times;</a>
+          <p>This is an example of your media player. Here you can view<br />
+            all of your chosen content, share, and embed on your blog or website.</p>
+          <a href='<%= edit_user_path(current_user) %>'>Next...</a>
+        </li>
+      <% end %>
+    </ol>
+
+    <script type="text/javascript">
+      <% if action_name.eql?("friends_feed") or action_name.eql?("show") %>
+          $(document).ready(function() {
+            var tour = $('#tour-blend').tourbus({});
+            tour.data('tourbus').depart()
+
+            $(".tourbus-stop").click(function() {
+              $.ajax({
+                type: "GET",
+                url: "/tour/update",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+              });
+            });
+          });
+        <% end %>
+    </script>
+  <% end %>
+</body>
+</html>
+

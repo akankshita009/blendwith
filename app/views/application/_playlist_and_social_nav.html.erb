@@ -1,0 +1,54 @@
+<h4>Playlists <span class="awe-plus-sign right"></span></h4>
+<ul class="unstyled playlists">
+  <%= nav_media_menus %>
+  <% playlist_name_sym = playlist_by_controller %>
+  <% current_user.try(playlist_name_sym).select("id, name, social_network").order("created_at desc").each do |playlist| %>
+      <% next if playlist.social_network.in? %w(URL MyPhotos AllPhotos RecentPhotos Facebook Twitter Instagram Flickr Picasa Soundcloud Youtube MyVidoes VidoesURL) %>
+      <%= content_tag :li, data: {id: playlist.id}, class: "playlist-user-add" do %>
+          <%= link_to playlist.name, playlist_path_by_controller(playlist), data: {id: playlist.id} %>
+          <% if playlist_name_sym == :image_playlists %>
+              <%= link_to "", "#", class: "slide-show-setting", data: {id: playlist.id} %>
+          <% else %>
+              <%= link_to "", "#", class: "playlist-setting" %>
+          <% end %>
+      <% end %>
+  <% end %>
+  <li id="playlist-box-li" style="<%= "display:none;" unless session[playlist_box_by_controller] %>">
+    <%= form_for playlist_object do |f| %>
+        <%= f.text_field :name %>
+    <% end %>
+  </li>
+</ul>
+<!--h4>Social</h4-->
+<!--ul class="unstyled social">
+  <li>
+    <span class="awe-facebook-sign"></span>
+    <a href="/home/facebook/social_login">Facebook</a>
+  </li>
+  <li class="colored">
+    <span class="awe-twitter"></span>
+    <a href="/home/twitter/social_login">Twitter</a>
+  </li>
+  <li>
+    <span class="awe-instagram"></span>
+    <a href="/home/instagram/social_login">Instagram</a>
+  </li>
+  <li>
+    <span class="awe-soundcloud"></span>
+    <a href="/home/soundcloud/social_login">Soundcloud</a>
+  </li>
+  <li>
+    <span class="awe-youTube"></span>
+    <a href="/home/google_oauth2/social_login">YouTube</a>
+  </li>
+  <li>
+    <span class="awe-flickr"></span>
+    <a href="/home/flickr/social_login">Flickr</a>
+  </li>
+  <li>
+    <span class="awe-picassa"></span>
+    <a href="/home/google_oauth2/social_login">Picasa</a>
+  </li>
+</ul-->
+
+

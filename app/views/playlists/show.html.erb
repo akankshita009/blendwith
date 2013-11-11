@@ -1,0 +1,13 @@
+<% @playlist.items.each do |item| %>
+  <% if item.itemizable_type == 'Album' %>
+    <h1>Album Cover </h1>
+    <%= image_tag item.itemizable.image_url, :size => "200x200" %>
+    <h2>Album Pictures </h2>
+    <% item.itemizable.photos.each do |photo| %>
+      <%= image_tag photo.image_url, :size => '150x150' %>
+    <% end %>
+  <% elsif item.itemizable_type == 'Photo' %>
+    <h1>Photo</h1>
+    <%= image_tag item.itemizable.image_url, :size => "200x200" %>
+  <% end %>
+<% end %>

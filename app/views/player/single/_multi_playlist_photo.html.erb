@@ -1,0 +1,38 @@
+<%#= javascript_include_tag 'plugins/player_cheage/video-script' %>
+<%= render 'player/background_music' %>
+
+<%= render :partial => 'application/player_buttons' %>
+
+<div id="gallery" playlist-id="<%= params['playlist_id'] %>">
+  <div>
+        <% @playlists.each do |playlist| %>
+            <% playlist.photos.allowed.each do |photo| %>
+                <div class="photo">
+                  <div class="desc">
+                    <span>By <%= @user.to_s %> <%= time_ago_in_words photo.created_at %> ago</span>
+                  </div>
+                  <img src="<%= photo.image_url %>">
+                  <h3 class="caption"><%= photo.caption %></h3>
+                </div>
+            <% end %>
+            <% playlist.albums.allowed.each do |album| %>
+                <% album.photos.each do |photo| %>
+                    <div class="photo">
+                      <div class="desc">
+                        <span>By <%= @user.to_s %> <%= time_ago_in_words photo.created_at %> ago</span>
+                      </div>
+                      <img src="<%= photo.image_url %>">
+                        <h3 class="caption"><%= photo.caption %></h3>
+                    </div>
+                <% end %>
+            <% end %>
+        <% end %>
+        <% @image_url.each do |url| %>
+            <div class="photo">
+              <div class="desc">
+              </div>
+              <img src="<%= url %>">
+            </div>
+        <% end %>
+  </div>
+</div>

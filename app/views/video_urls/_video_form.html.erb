@@ -1,0 +1,25 @@
+<div class="row-fluid" style="">
+  <div id="flashing" class="page-header">
+    <%= render :partial => 'layouts/flash_messages', :locals => { :flash => flash } %>
+  </div>
+  <!--width: 200px;margin-top: 20px;-->
+  <div class="span4 offset1">
+    <%= form_for(@video_url) do |f| %>
+      <%= f.text_field :video_url, placeholder: "Please enter video URL...", style: "margin-bottom: 0;" %>
+      <%= f.submit "+Add", class: "btn", :onclick => "return validateurl();" %>
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function validateurl() {
+    if ($("#video_url_video_url").val() == "")
+    {
+      alert("You have to give video url to add.");
+      return false;
+    }
+    
+    return true;
+  }
+  
+</script>

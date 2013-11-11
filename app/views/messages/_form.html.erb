@@ -1,0 +1,10 @@
+
+<%= simple_form_for :message, url: [:reply, conversation], remote: true do |f| %>
+    <%= f.input :subject %>
+    <%= f.input :body, as: :text, :input_html => { :cols => 30, :rows => 7, :style => 'width: 390px;' } %>
+    <div class="form-actions" style="border: none;padding-left: 0;">
+        <%= f.button :submit, class: 'btn btn-wuxia btn-normal btn-primary' %>
+      <%#= link_to 'Save Message', 'javascript:void(0)', class: 'btn btn-wuxia btn-normal btn-primary' %>
+    </div>
+<% end %>
+
