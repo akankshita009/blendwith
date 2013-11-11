@@ -33870,3 +33870,5 @@ Processing by PublicController#index as HTML
   Rendered application/_header.html.erb (0.4ms)
   Rendered public/index.html.erb within layouts/application (1.0ms)
 Completed 200 OK in 4ms (Views: 3.6ms | ActiveRecord: 0.0ms)
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
