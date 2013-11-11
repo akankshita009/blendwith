@@ -72,7 +72,8 @@
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  config.action_mailer.default_url_options = { :host => 'li293-151.members.linode.com:83' }
+#  config.action_mailer.default_url_options = { :host => 'li293-151.members.linode.com:83' }
+config.action_mailer.default_url_options = { :host => 'www.itcoders.com' }
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
