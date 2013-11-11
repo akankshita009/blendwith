@@ -36,7 +36,7 @@ Blendwith::Application.configure do
   config.assets.debug = false
 
   #config.action_mailer.default_url_options = { :host => 'li293-151.members.linode.com:83' }
-    config.action_mailer.default_url_options = { :host => '192.168.1.41:3000' }
+    config.action_mailer.default_url_options = { :host => 'www.itcoders.com' }
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
@@ -53,10 +53,10 @@ Blendwith::Application.configure do
 config.action_mailer.smtp_settings = {
       :address => "email-smtp.us-east-1.amazonaws.com",
       :port => 465,
-     # :domain => "amazonaws.com",
+      :domain => "www.itcoders.com",
       :authentication => :login,
-      :user_name => "AKIAIKZ4JX5RRSLMN4BA",
-      :password => "AgVebiaarCezesYYOdJihCZBteeTLN5s1Iz+3vKcDG4X"
+      :user_name => "AKIAI2E5KADIMK5Z2AWA",
+      :password => "Am6QS+PcxdIJc9hq+zLG/qafcPc4yM0glwF8zDgO5cIJ"
   }
 =begin    config.action_mailer.smtp_settings = {
 	:openssl_verify_mode  => 'none',

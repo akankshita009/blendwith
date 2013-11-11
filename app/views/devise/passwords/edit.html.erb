@@ -15,7 +15,7 @@
   <div><%= f.label :password_confirmation, "Confirm new password" %><br />
   <%= f.password_field :password_confirmation %></div>
 
-  <div><%= f.submit "Change my password" %></div>
+  <div><a href="#" class="btns" style="background-size:100% 100%;" onclick="$('#new_user').submit();">Change my password</a><%#= f.submit "Change my password" %></div>
 <% end %>
 
 <%= render "devise/shared/links" %>

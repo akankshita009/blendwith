@@ -86,13 +86,12 @@
       :password => "Aiw2x3oUuPe764zQWTgkxqqa/dn8gXbTNM3+meBhlvan"
   }
 =end 
-  config.action_mailer.smtp_settings = {
-    :address              => 'smtp.gmail.com',
-    :port                 => 587,
-    :domain               => 'gmail.com',
-    :user_name            => 'sandboxtest1987@gmail.com',
-    :password             => 'sandboxtest1987',
-    :authentication       => 'login',
-    :enable_starttls_auto => true
+config.action_mailer.smtp_settings = {
+      :address => "email-smtp.us-east-1.amazonaws.com",
+      :port => 465,
+      :domain => "www.itcoders.com",
+      :authentication => :login,
+      :user_name => "AKIAI2E5KADIMK5Z2AWA",
+      :password => "Am6QS+PcxdIJc9hq+zLG/qafcPc4yM0glwF8zDgO5cIJ"
   }
 end

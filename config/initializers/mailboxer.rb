@@ -4,7 +4,7 @@ Mailboxer.setup do |config|
   config.uses_emails = false
 
   #Configures the default from for the email sent for Messages and Notifications of Mailboxer
-  config.default_from = "wangjiwen10@163.com"
+  config.default_from = "chirag@intelithub.com"
 
   #Configures the methods needed by mailboxer
   config.email_method = :mailboxer_email
